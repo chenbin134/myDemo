@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>1</title>
+    <style>
+        .box {
+            width: 1000px;
+            height: 200px;
+            background-color: blue;
+        }
+        
+        @media only screen and (min-width: 768px) {
+            .box {
+                width: 300px;
+                height: 300px;
+                background-color: red;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <H1>合并数组</H1>
+    <div class="box">aaaa</div>
+</body>
+
+</html>
+<script type="text/javascript">
+    let resp = [{
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "",
+            "beforeInfo": "t02@cpic.com.cn",
+            "fieldName": "投保人email",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "341282198409164969",
+            "beforeInfo": "110101198001011216",
+            "fieldName": "投保人身份证号码",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "13524729880",
+            "beforeInfo": "17655446677",
+            "fieldName": "投保人手机号码",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "testaa",
+            "beforeInfo": "",
+            "fieldName": "投保人联系人",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "testaa",
+            "beforeInfo": "羊羊羊",
+            "fieldName": "投保人名称",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "地址地址地址地址",
+            "beforeInfo": "是的范德萨范德萨发",
+            "fieldName": "投保人地址",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "客户信息",
+        "value": {
+            "afterInfo": "testaa",
+            "beforeInfo": "",
+            "fieldName": "被保险人联系人",
+            "fieldType": "客户信息"
+        }
+    }, {
+        "name": "车辆信息",
+        "value": {
+            "afterInfo": "2",
+            "beforeInfo": "1",
+            "fieldName": "底色",
+            "fieldType": "车辆信息"
+        }
+    }, {
+        "name": "车辆信息",
+        "value": {
+            "afterInfo": "浙KAM3NL",
+            "beforeInfo": "浙KAM3NH",
+            "fieldName": "号牌号码",
+            "fieldType": "车辆信息"
+        }
+    }, {
+        "name": "保单基本信息",
+        "value": {
+            "afterInfo": "6593.15",
+            "beforeInfo": "6478.33",
+            "fieldName": "保单保费",
+            "fieldType": "保单基本信息"
+        }
+    }, {
+        "name": "保单基本信息",
+        "value": {
+            "afterInfo": "sddssdsds",
+            "beforeInfo": "",
+            "fieldName": "仲裁机构",
+            "fieldType": "保单基本信息"
+        }
+    }, {
+        "name": "保单基本信息",
+        "value": {
+            "afterInfo": "2",
+            "beforeInfo": "1",
+            "fieldName": "诉讼/仲裁",
+            "fieldType": "保单基本信息"
+        }
+    }, {
+        "name": "保单基本信息",
+        "value": {
+            "afterInfo": "6867.86",
+            "beforeInfo": "6748.26",
+            "fieldName": "保单标准保费",
+            "fieldType": "保单基本信息"
+        }
+    }, {
+        "name": "子险信息",
+        "value": {
+            "afterInfo": "25000",
+            "beforeInfo": "15000",
+            "fieldName": "机动车车上人员责任保险-乘客的保额",
+            "fieldType": "子险信息"
+        }
+    }]
+    let list = [];
+    let nameList = [];
+    let oldLength = 0;
+    let newLength = 0;
+    for (let i = 0; i < resp.length; i++) {
+
+        oldLength = nameList.length;
+        nameList.push(resp[i].name)
+        nameList = [...new Set(nameList)]
+        newLength = nameList.length;
+        if (newLength > oldLength) {
+            list.push({
+                name: resp[i].name,
+                value: [resp[i].value]
+            })
+        } else {
+            // const a=list.filter(item=>{
+            //     return item.name===resp[i].name
+            // })
+            list.filter(item => {
+                return item.name === resp[i].name
+            })[0].value.push(resp[i].value);
+        }
+    }
+    // debugger;
+    console.log(list);
+</script>

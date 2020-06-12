@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    const data = {
+        is_open: "1",
+        lv_1_score: "0",
+        lv_1_up: "10",
+        lv_2_score: "50",
+        lv_2_up: "15",
+        lv_3_score: "200",
+        lv_3_up: "20",
+        lv_4_score: "500",
+        lv_4_up: "25",
+        lv_5_score: "1000",
+        lv_5_up: "30",
+        lv_6_score: "2000",
+        lv_6_up: "35",
+        lv_7_score: "5000",
+        lv_7_up: "40"
+    }
+
+    const members = [
+        // {
+        //     inte: '当会员积分达到',
+        //     comm: '升级为1级会员，佣金提升',
+        //     Integral: '', // 积分1
+        //     commission: '' // 佣金1
+        // }
+        ]
+            // 这个newArr 是将后台数据处理后的数据
+       const newArr = [];
+       //    这个是把后台的数据分解成两个一组，方便循环
+       for( let key in data){
+           if(key.includes('lv_1')){
+               if(key == 'lv_1_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_2')){
+               if(key == 'lv_2_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_3')){
+               if(key == 'lv_3_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_4')){
+               if(key == 'lv_4_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_5')){
+               if(key == 'lv_5_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_6')){
+               if(key == 'lv_6_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+           if(key.includes('lv_7')){
+               if(key == 'lv_7_score'){
+                   var obj = {}; 
+                   obj[key] = data[key];
+                    newArr.push(obj);    
+               } else {
+                    obj[key] = data[key];   
+               }
+               
+           }
+       }
+       console.log(newArr);
+    
+
+    //    循环添加到数组中
+       for(let i=0;i<newArr.length;i++){
+           const temp = {};
+           temp.inte = '当会员积分达到';
+           temp.comm = `升级为${i+1}级会员，佣金提升`;
+           temp.Integral = newArr[i][`lv_${i+1}_score`]
+           temp.commission = newArr[i][`lv_${i+1}_up`]
+           members.push(temp);
+       }
+       console.log(members);//最终这个members就是对应好的数据
+    //    脑容量不够用了，睡觉吧，瞌睡死了
+</script>

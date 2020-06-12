@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>get方式获取数据</button>
+    <button>post方式获取数据</button>
+</body>
+</html>
+<script src="../../js/jquery-1.11.3.min.js"></script>
+<script>
+
+    $('button:eq(0)').click(function(){
+        // $.ajax({
+        //     url:'http://192.168.1.116:8080/list?name=11',
+        //     method:'get',
+        //     success:function(res){
+        //         console.log(res);
+        //     }
+        // });
+        getData().then(res => {
+            console.log(res);
+        });
+    });
+
+    $('button:eq(1)').click(function(){
+        $.ajax({
+            url:'http://192.168.1.46:8080/list',
+            method:'post',
+            data:{
+                id : 1,
+                uid : 'afafdfd-f989f0fd-fdfs',
+                // info : {
+                //     name : 'aaa',
+                //     age : 1
+                // }
+            },
+            success:function(res){
+                console.log(res);
+            },
+            error:function(){
+                console.log('error');
+            }
+        });
+    });
+
+    function getData(){
+        return new Promise((resolve,reject) => {
+            $.ajax({
+            url:'http://192.168.1.116:8080/list?name=11',
+            method:'get',
+            success:function(res){
+                resolve(res);
+            }
+        });
+        });
+    }
+</script>

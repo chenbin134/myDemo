@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="box">
+        <input type="file">
+
+    </div>
+</body>
+
+</html>
+<script src="./js/jquery-1.11.3.min.js"></script>
+<script>
+    $('input').change(function(e) {
+        console.log(e.target.files[0])
+        let file = e.target.files[0];
+        // 方式一
+        // let reader = new FileReader();
+        // reader.readAsDataURL(file);
+        // reader.onload = () => {
+        //     // base 64
+        //         console.log(reader.result)
+        //     }
+        // 方式二
+        let url = URL.createObjectURL(file)
+        console.log(url)
+    })
+</script>

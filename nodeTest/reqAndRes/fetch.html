@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            border: 1px solid red;
+            width: 150px;
+            height: 50px;
+            text-align: center;
+           
+        }
+    </style>
+</head>
+<body>
+    <div>get获取</div>
+    <div>post获取</div>
+</body>
+</html>
+<script>
+    var aBox = document.getElementsByTagName('div');
+    aBox[0].onclick = function(){
+        fetch('http://192.168.1.46:8080/list?name=11',{}).then(res => {
+            console.log(res);
+           return res.json();//此方法返回promise
+        }).then(resData => {
+            console.log(resData);//这个是最终拿到的服务器响应数据
+        });
+    }
+    aBox[1].onclick = function(){
+        fetch('http://192.168.1.46:8080/list',{
+            body : JSON.stringify(obj),
+            method: 'POST'
+        }).then(res => {
+            console.log(res);
+            return res.json();
+        }).then(resData => {
+            console.log(resData);
+        })
+    }
+
+    var obj = {
+        id : 1,
+        uid : 'afafdfd-f989f0fd-fdfs'
+    }
+
+</script>

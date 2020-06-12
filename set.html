@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+       
+    </style>
+</head>
+<body>
+  
+  
+</body>
+</html>
+<script>
+
+
+    const set = new Set();
+        set.add(1);//添加
+        set.add(2);
+        set.delete(2);//删除
+        console.log(set.size);
+        console.log([...set]);
+    const arr = [1,2,3,4,55,55,66,66]//set不会添加重复元素
+    const set2 = new Set(arr);
+    console.log([...set2]);
+    console.log([...new Set(arr)]);//去重
+    console.log(set2.has(55));
+
+
+    //Array.from 可以将set转换为数组
+    const items = new Set([1,2,3,4,5,5,5,6,6]);
+    console.log(Array.from(items));
+
+    for(item of items){
+        console.log(item);
+    }
+
+    // 去重
+    function dedupe(array){
+        return Array.from(new Set(array));
+    }
+
+    const arrr = [
+    {
+        left: [{
+          head_img: '../resources/doc.png',
+          msg: '哈哈1'
+        }],
+        right: [{
+          head_img: '../resources/doc.png',
+          msg: '测试数据，聊天记录'
+        }]
+      },
+       {
+        left: [{
+          head_img: '../resources/doc.png',
+          msg: '哈哈2'
+        }],
+        right: [{
+          head_img: '../resources/doc.png',
+          msg: '测试数据，聊天记录'
+        }]
+      },
+       {
+        left: [{
+          head_img: '../resources/doc.png',
+          msg: '哈哈3'
+        }],
+        right: [{
+          head_img: '../resources/doc.png',
+          msg: '测试数据，聊天记录'
+        }]
+      }
+    ]
+
+    arrr.reverse().forEach( item => {
+    	console.log(item);
+    });
+
+
+    
+</script>

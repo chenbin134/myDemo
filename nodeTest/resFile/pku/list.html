@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+        <head>
+                <meta charset="UTF-8">
+                <meta name="apple-mobile-web-app-capable" content="yes" />
+                <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+                <meta name="format-detection"content="telephone=no, email=no" />
+                <title>北大妇幼健康服务平台</title>
+                <link rel="stylesheet" href="css/m.css?v=v1">
+                <style type="text/css">
+                body{background: #eff3f3;}
+                </style>
+                <script type="text/javascript" src="js/mobile.js"></script>
+                </head>
+                <body>
+                <div class="wrapper" id="Records">
+                    <div class="content">
+                        <div class="title1">欢迎参加北大妇幼健康真实世界研究项目</div>
+                        <div class="" id="wrapper33">
+                        <div class="" id="scroller">
+                        <ul class="list2">
+                            <li><a href="/growth/indexHS.aspx?from=sleep"><img src="img/icon-sleep4.png"  style="width:50px;  vertical-align:middle  ">&nbsp;&nbsp;宝宝睡眠与生长评估</a></li>
+                            <li><a href="/growth/indexHS.aspx?from=stomach"><img src="img/icon-stomach2.png"   style="width:50px;  vertical-align:middle  ">&nbsp;&nbsp;宝宝胃肠与生长评估</a></li>
+                            <!-- <li><a href="/growth.aspx"><img src="img/icon-growth2.png"  style="width:50px;  vertical-align:middle  ">&nbsp;&nbsp;宝宝生长评估</a></li>  -->
+                            </ul>
+                            </div>
+                            </div>
+                    </div>
+                    <a href="javascript:;" class="btn">领取礼品</a>
+                    
+                </div>
+                 
+                
+                <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+                <script type="text/javascript" src="js/iscroll.js"></script>
+                    <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+                <script src="js/share.js"></script>
+                    <script type="text/javascript">
+                    $('a.btn').click(function(){
+                            $.ajax({
+                                url:'http://pkuwechat.idmed.cn/GetNaiFen.aspx',
+                                success:function(res){
+                                    console.log(res);
+                                    if(res.success == 1){
+                                        if(res.data.stat == 1){
+                                            window.location.href = '/getGift.html'
+                                        } else {
+                                            alert('谢谢参与');
+                                        }
+                                    }else {
+                                        alert('谢谢参与');
+                                    }
+                                }
+                            });
+                        });
+
+                        // document.addEventListener('touchmove', function (ev) {
+                        //     ev.preventDefault();
+                        //     return false;
+                        // }, false)
+                
+                        // var myScroll;
+                        // var cliHeight = document.documentElement.clientHeight;
+                
+                        // $(function () {
+                        //     setTimeout(loaded(), 300)
+                        // });
+                
+                        // function loaded() {
+                        //     myScroll = new IScroll('#wrapper33', { scrollX: true, scrollbars: 'custom' });
+                        // }
+
+                        
+                
+                </script>
+                </body>
+                
+    
+    
+   
+    
+    
+    
+    
+   
+    
+</html>

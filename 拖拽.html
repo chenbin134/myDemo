@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .box {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 1px solid red;
+            margin-left: 100px;
+            margin-top: 200px;
+        }
+        .block {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            width: 100px;
+            height: 100px;
+            background: violet;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="block"></div>
+    </div>
+</body>
+</html>
+<script>
+    var oBox = document.getElementsByTagName('div')[0];
+    var oBlock = document.getElementsByTagName('div')[1];
+    
+    oBlock.onmousedown = function(event){
+        var mouseX = event.clientX - oBox.offsetLeft - oBlock.offsetLeft;
+        var mouseY = event.clientY - oBox.offsetTop - oBlock.offsetTop;
+        document.onmousemove = function(event){
+            var leftVal = event.clientX - mouseX - oBox.offsetLeft;
+            var topVal = event.clientY - mouseY  - oBox.offsetTop;
+            oBlock.style.left = leftVal + 'px';
+            oBlock.style.top = topVal + 'px';
+        }
+        document.onmouseup = function(){
+            console.log('up');
+            document.onmousemove = null;
+            return false;
+        }
+    }
+</script>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-style: normal;
+            list-style: none;
+        }
+        
+        .nav {
+            width: 200px;
+        }
+        
+        .menu {
+            width: 100%;
+        }
+        
+        .menu-item {
+            padding: 8px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background: #cccccc;
+        }
+        
+        .menu-item>i {
+            font-size: 14px;
+            color: #000000;
+        }
+        
+        .submenu {
+            margin-top: 5px;
+            background: pink;
+        }
+        
+        .submenu-item {
+            padding: 8px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: pink;
+        }
+        
+        .submenu-item:not(:last-child) {
+            border-bottom: 1px solid #cccccc;
+        }
+        
+        .slideup {
+            height: 100%;
+            animation-name: slideup;
+            animation-duration: .5s;
+            animation-fill-mode: forwards;
+        }
+        
+        @keyframes slideup {
+            from {
+                height: 100px;
+            }
+            to {
+                height: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+
+</html>
+<script>
+    const data = {
+        parent: [{
+            name: 'level1',
+            id: 1
+        }, {
+            name: 'level1',
+            id: 2
+        }, {
+            name: 'level1',
+            id: 3
+        }, {
+            name: 'level1',
+            id: 4
+        }, ],
+        children: [{
+            name: '1-1',
+            pid: 1,
+            id: 5
+        }, {
+            name: '1-2',
+            pid: 1,
+            id: 6
+        }, {
+            name: '1-3',
+            pid: 2,
+            id: 7
+        }, {
+            name: '1-1',
+            pid: 4,
+            id: 8
+        }, ]
+    }
+    const allData = [...data.parent, ...data.children];
+    console.log(allData)
+        // map {1:{...},{2:{...}}}
+    const mapList = allData.reduce((obj, current) => {
+        obj[current['id']] = current;
+        return obj
+    }, {})
+    console.log(mapList)
+    const result = allData.reduce((arr, current) => {
+        let pid = current.pid;
+        let parent = mapList[pid];
+        if (pid) {
+            parent.children ? parent.children.push(current) : parent.children = [current]
+        } else {
+            arr.push(current)
+        }
+        return arr;
+    }, []);
+    console.log(result)
+</script>

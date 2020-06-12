@@ -1,0 +1,158 @@
+<!-- <%@ Page Language="C#" AutoEventWireup="true" CodeFile="survay01.aspx.cs" Inherits="survay01" %> -->
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection"content="telephone=no, email=no" />
+<title>北大妇幼健康服务平台</title>
+<link rel="stylesheet" href="css/m.css?v=v1">
+<script type="text/javascript" src="js/mobile.js"></script>
+    <script>
+        var mp = "<%=Cmn.Request.Get("mp")%>";
+        var scene = "<%=iscene%>";
+        var _f = '<%=Request["f"]??""%>';
+           var iscene = '<%=iscene%>';
+    </script>
+      <style>
+		.option1 li:nth-child(4){background:#abe1fa; }
+		.option1 li:nth-child(5){background: #c7eafb;}
+		.option1 li:nth-child(6){background:#8ed8f8; }
+		.option1 li:nth-child(7){background: #c7eafb;}
+		.option3 li:nth-child(9){background: #97dbfc;}
+		.option3 li.cur {background: #00a1e4;color: #FFF;}
+		.myAgreeBtn {
+			display: block;
+			width: 442px;
+			height: 91px;
+			background: #ccecfa;
+			text-align: center;
+			line-height: 91px;
+			font-size: 36px;
+			font-weight: 700;
+			border-radius: 10px;
+			margin: 0 auto;
+			text-decoration: none;
+			color: #00a1e4;
+			margin-top: 60px;
+		}
+		.myTitle {
+			text-align: center;
+			width: 100%;
+			font-size: 42px;
+			color: #f57a8e;
+			padding: 70px 0 0px 0
+		}
+		#ques04 input {
+			width: 111px;
+			height: 30px;
+			border: none;
+			border-bottom: 1px solid #f57a8e;
+			font-size: 40px;
+			color: #f57a8e;
+			text-align: center;
+			outline: none;
+		}
+        #Success2,#Success3{z-index: 99999;background: white}
+        #Success2 a.btn01,#Success3  a.btn01{display: block;width: 442px;height: 90px;line-height: 90px;text-align: center;background: #ccecfa;font-size: 40px;font-weight: 700;color: #40b9eb;text-decoration: none;margin: 0 auto 30px auto;border-radius: 10px;}
+        #Success2 h1,#Success3 h1{color: #f57a8e;font-size: 48px;text-align: center;padding: 160px 0 125px 0;margin: 0;}
+    </style>
+</head>
+<body>
+<div class="wrapper" id="Survay01">
+	<div class="ques" id="ques01">
+    	<img src="img/icon-questionmark.png" class="icon-questionmark" />
+    	<div class="title">宝宝目前喂养方式</div>
+    	<div class="pic"><img src="img/survay01-pic01.jpg" class="survay01-pic01" /></div>
+    	<div class="scroll-pane-s01-1">
+    	<ul class="options option1">
+    		<li>纯母乳喂养</li>
+    		<li>纯奶粉喂养</li>
+			<li>母乳+奶粉</li>
+			<li>纯辅食喂养</li>
+			<li>母乳+辅食</li>
+			<li>奶粉+辅食</li>
+			<li>母乳+奶粉+辅食</li>
+    	</ul>
+    	</div>
+    </div>
+    <div class="ques" id="ques02">
+    	<div class="title">请选择<br>不能纯母乳喂养的原因</div>
+    	<div class="txt">不能纯母乳喂养的原因</div>
+    	<h6>母乳是宝宝最天然最好的食品<br>建议尽可能坚持母乳喂养</h6>
+    	<a href="javascript:;" class="btn-agree">我已知晓并且同意</a>
+    </div>
+    <div class="ques" id="ques03">
+    	<img src="img/icon-questionmark.png" class="icon-questionmark" />
+    	<div class="title">不能纯母乳喂养原因<span><br>（可多选）</span></div>
+    	<div class="scroll-pane-s01-3">
+    	<ul class="options option3">
+    		<li>婴儿因素</li>
+    		<li>母亲乳房问题</li>
+    		<li>母亲感染因素</li>
+    		<li>母亲其他疾病/用药</li>
+    		<li>母乳分泌不足</li>
+    		<li>重返工作</li>
+			<li>家人不支持</li>
+			<li>医生建议添加辅食</li>
+    		<li>因其他原因不愿/无法哺乳 </li>
+    	</ul>
+    	</div>
+    	<a href="javascript:;" class="btn-confirm">确认</a>
+	</div>
+	<div class="ques" id="ques04" style="display:none;">
+		<div style="text-align: center;margin-top: 246px;">
+				<span class="myTitle">宝宝</span>
+				<input type="number">
+				<span class="myTitle">月龄停止吃母乳</span>
+		</div>
+		<a href="javascript:;" class="myAgreeBtn">确认</a>
+	</div>
+</div>
+
+<div id="Mask"></div>
+<div class="popups popup1" id="Instruction1">
+	<img src="img/icon-close.png" class="icon-close" />
+	<h2>说  明</h2>
+	<h3>
+<b>纯母乳喂养</b><br>
+除母乳外，仅给予水或其他非营养液体的喂养方式；<br><br>
+<b>人工喂养</b><br>
+因各种原因不能用母乳喂养婴儿时，可采用配方奶、动物乳或其他母乳代用品喂养婴儿；<br><br>
+<b>混合喂养</b><br>
+由于条件限制，无法完全用母乳喂养，需要补充母乳替代品的喂养方式。
+	</h3>
+</div>
+<div class="popups popup2" id="Instruction2">
+	<img src="img/icon-close.png" class="icon-close" />
+	<h2>说  明</h2>
+	<h3>
+<b>婴儿因素</b><br>
+住院（母婴分离）、半乳糖血症、苯丙酮尿症等遗传病，严重母乳性黄疸<br><br>
+<b>母亲乳房问题</b><br>
+先天性发育异常/乳头问题、手术或严重外伤、乳腺炎<br><br>
+<b>母亲感染因素</b><br>
+肝炎、结核、HIV感染、梅毒等传染病活动期<br><br>
+<b>母亲其他疾病/用药</b><br>
+严重抑郁症等；放疗、化疗等特殊用药
+	</h3>
+</div>
+
+<div class="wrapper" id="Success2" runat="server">
+     <h1>恭喜您<br />注册成功</h1>
+ <a href="javascript:wx.closeWindow();" class="btn01">关闭</a>
+</div>
+
+
+<div class="wrapper" id="Success" runat="server">
+ <!-- <h1><%=aibing.com.Aspnet.GetAppString("nobaby") %></h1> -->
+    <a href="javascript:wx.closeWindow();" class="btn01">确认</a>
+</div>
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/survay01.js?v=2"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/share.js"></script>
+</body>
+</html>

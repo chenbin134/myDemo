@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container::after {
+            display: block;
+            content: '';
+            clear: both;
+        }
+        /* 使用padding挤出左右两边的部分的宽度 */
+        .container {
+            padding-left: 200px;
+            padding-right: 200px;
+        }
+        .center {
+            width: 100%;
+            height: 200px;
+            background: red;
+            float: left;
+        }
+        /* 左边部分通过margin负值100%可以到中间部分的左边并为一行，右边部分margin负值自身的宽度到达中间部分的右边处于一行 */
+        /* 通过自身定位将父容器padding的空出的位置拉回去 */
+        .left {
+            float: left;
+            width: 200px;
+            height: 300px;
+            background: blue;
+            margin-left: -100%; 
+            position: relative;
+             left: -200px;
+        }
+        .right {
+            float: left;
+            width: 200px;
+            height: 300px;
+            background: green;
+            margin-left: -200px;
+            position: relative;
+            right: -200px;
+            margin-top: 200px;
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- 圣杯布局（三列布局）,左右两栏宽度固定，中间部分自动适应 -->
+    <!-- 左右固定宽度，中间部分100%宽，通过使用浮动以及maring的负值，来是的三栏处于同一行，然后父容器通过使用padding来挤出左右两栏的宽度，使用定位将左右两栏归位 -->
+
+    <div class="container">
+        <div class="center">center</div><!-- 放在第一个为了使中间部分早点加载-->
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+</body>
+</html>

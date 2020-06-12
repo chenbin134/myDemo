@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	
+</body>
+</html>
+<script type="text/javascript">
+	// function Person(name){
+	// 	this.name = name;
+	// }
+	// Person.prototype.name = 'hhh'
+
+	// const person = new Person('aaa');
+
+	Father.prototype.lastname = 'chen'
+	function Father(){
+
+	}
+	function Son(){
+
+	}
+	function F(){
+
+	}
+	function inherit(target,origin){
+		function F(){};
+		F.prototype = origin.prototype;
+		target.prototype = new F();
+		target.prototype.constructor = target
+		
+	}
+	inherit(Son,Father);
+	const son = new Son();
+	const father = new Father();
+
+</script>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 84%;
+            /* height: 150pt; */
+            margin: 0 auto;
+        }
+        
+        .val-box {
+            display: flex;
+            /* height: 100%;
+            width: 100%; */
+            text-align: center;
+            position: relative;
+            background: rgba(255, 255, 255, 0);
+            justify-content: space-around;
+        }
+        
+        .val-box input[type=text] {
+            /* opacity: 0; 使input隐藏 */
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 34px;
+            width: 212px;
+            z-index: -999;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            background-color: rgba(255, 255, 255, 0);
+        }
+        
+        .val-box div {
+            /* height: 100%;
+            width: 20%; */
+            width: 34pt;
+            height: 30pt;
+            border: 1px solid #999999;
+            border-radius: 5px;
+            float: left;
+            margin: 2px 2.5%;
+            z-index: 5;
+            font-size: 1.5em;
+            font-family: arial;
+            text-align: center;
+            line-height: 1.5em;
+            cursor: text;
+            background-color: rgba(255, 255, 255, 0);
+        }
+        
+        .val-box .available {
+            border-color: #0081db;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container" id="test">
+        <div class="val-box" id="val-box">
+            <input type="text" id="val-code-input" maxlength="4" onkeyup="checkForNum(this)" onselectstart="return false;" onblur="checkForNum(this)">
+            <div name="val-item"></div>
+            <div name="val-item"></div>
+            <div name="val-item"></div>
+            <div name="val-item"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="./js/jquery-1.11.3.min.js"></script>
+<script>
+    var valCodeInput = $("#val-code-input");
+    var valCodeItems = $("div[name='val-item']");
+    var regex = /^[\d]+$/;
+    var valCodeLength = 0;
+    $('#val-box').on('click', function() {
+        console.log("聚焦")
+        valCodeInput.focus();
+
+    })
+
+    // input输入框即时反映
+    valCodeInput.on('input propertychange change', function(e) {
+            valCodeLength = valCodeInput.val().length;
+            if (valCodeInput.val() && regex.test(valCodeInput.val())) {
+                $(valCodeItems[valCodeLength - 1]).removeClass('available');
+                $(valCodeItems[valCodeLength - 1]).addClass('available');
+                $(valCodeItems[valCodeLength - 1]).text(valCodeInput.val().substring(valCodeLength - 1, valCodeLength));
+            }
+        })
+        // 点击获取验证码或点击第一个数字输入框时获取焦点,添加available类样式
+    $("div[name='val-item']").on("tap", function() {
+            $(valCodeInput).focus();
+            $(valCodeItems[0]).addClass('available');
+        })
+        // 删除键
+    $(this).on('keyup', function(e) {
+        if (e.keyCode === 8) {
+            $(valCodeItems[valCodeLength]).text("");
+            if (valCodeLength !== 0) {
+                $(valCodeItems[valCodeLength]).removeClass('available');
+            }
+        }
+    });
+    // 当验证码输入四位时直接跳转（在此验证验证码是否正确
+    $(valCodeInput).on("input propertychange", function() {
+        if (valCodeInput.val().length == 4) {
+            //          $("#yanzhengma").fadeOut(200,function(){
+            //              $("#dialog1").fadeIn(200);
+            //          })
+            console.log('123')
+            console.log(valCodeInput.val())
+        }
+    })
+
+    //把所有输入的不是数字的字符转换为空值
+    function checkForNum(obj) {
+        obj.value = obj.value.replace(/[\D]/g, '');
+    }
+</script>

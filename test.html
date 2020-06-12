@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .box {
+            width: 0;
+            height: 0;
+            border: 40px solid;
+            border-left: 50px solid;
+            /* border-left: 0; */
+            /* border-right: 0; */
+            border-color: red green blue pink;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+
+    </div>
+
+</body>
+
+</html>
+<script src="./ua.js"></script>
+<script type="text/javascript" src="./js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    $.ajax({
+        url: 'http://192.168.1.252:8091/upload',
+        method: 'post',
+        data: {
+            value: JSON.stringify({
+                "ids": [123, 126, 202, 144]
+            })
+        },
+        success: function(res) {
+            console.log(res);
+        }
+    });
+    console.log(browser.ua)
+        // contentType 为application/json,发送的数据格式为字符串的json，如果是www,,.则为formdata
+        // const obj = {
+        // 		 "video_id": 146,
+        //      "uid": "afd0b036-625a-3aa8-b639-9dc8c8fff0ff",
+        //      "method": "SD"
+
+    // 	}
+    // $.ajax({
+    // 	url:'https://app.idmed.cn/smallY/liveberry/watch_livevideo',
+    // 	method:'post',
+    // 	data:JSON.stringify(obj),
+    // 	contentType:'application/json',
+    // 	success:function(res){
+    // 		console.log(res);
+    // 	}
+    // });
+
+    var arr = [1, 2, 3, 4];
+    var r = [];
+    let res = arr.reduce((pre, current) => {
+        // pre.time = current;
+        console.log(current)
+        let obj = {
+            time: current
+        };
+        console.log(obj)
+        console.log(pre)
+        pre.push(obj)
+        return pre
+    }, [])
+    console.log(res)
+</script>

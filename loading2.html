@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .loading {
+            width: 200px;
+            height: 200px;
+            display: flex;
+        }
+        
+        .item {
+            border-radius: 3px;
+            width: 6px;
+            height: 30px;
+            background-color: #f66;
+            margin-left: 5px;
+            animation-name: loading;
+            animation-duration: 1.5s;
+            animation-timing-function: ease-in-out;
+            animation-iteration-count: infinite;
+        }
+        
+        .item:nth-child(1) {
+            animation-delay: 0;
+        }
+        
+        .item:nth-child(2) {
+            animation-delay: 200ms;
+        }
+        
+        .item:nth-child(3) {
+            animation-delay: 400ms;
+        }
+        
+        @keyframes loading {
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+            50% {
+                transform: scaleY(.5);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading">
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+        <div class="item"></div>
+    </div>
+</body>
+
+</html>

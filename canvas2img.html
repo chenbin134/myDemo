@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <button class="button-balanced" id="save">save</button>
+    <a href="" download="canvas_love.png" id="save_href"></a>
+    <img src="" id="save_img"/>
+    <a download="myCanvas.jpg" href="data:image/png;base64,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">aaaa</a>
+</body>
+</html>
+<script>
+
+var c=document.getElementById("canvas");
+function drawLove(canvas){
+    let ctx = canvas.getContext("2d");
+    ctx.beginPath();
+    ctx.fillStyle="#E992B9";
+    ctx.moveTo(75,40);
+    ctx.bezierCurveTo(75,37,70,25,50,25);
+    ctx.bezierCurveTo(20,25,20,62.5,20,62.5);
+    ctx.bezierCurveTo(20,80,40,102,75,120);
+    ctx.bezierCurveTo(110,102,130,80,130,62.5);
+    ctx.bezierCurveTo(130,62.5,130,25,100,25);
+    ctx.bezierCurveTo(85,25,75,37,75,40);
+    ctx.fill();
+}
+drawLove(c);
+var butSave = document.getElementById("save");
+butSave.onclick=function(){
+    var svaeHref = document.getElementById("save_href");
+    /*
+21
+     * 传入对应想要保存的图片格式的mime类型
+22
+     * 常见：image/png，image/gif,image/jpg,image/jpeg
+23
+     */
+    var img = document.getElementById("save_img");
+    var tempSrc = canvas.toDataURL("image/png");
+    svaeHref.href=tempSrc;
+    img.src=tempSrc; 
+};
+</script>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./js/mobile.js"></script>
+
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        .box {
+            position: relative;
+            width: 500px;
+            height: 340px;
+            margin-left: 100px;
+        }
+        .box img {
+            width: 500px;
+        }
+        canvas {
+            position: absolute;
+            left: 0;
+            top: 0;
+            border: 1px solid red;
+            box-sizing: border-box;
+            background: url('./img/body.png') no-repeat center center;
+        }
+    </style>
+</head>
+<!-- 设置canvas的宽高要用canvas的属性，不要用css来设置，否则会出现模糊，位置不准确的情况 -->
+<body>
+    <div>请在下面图形中圈出</div>
+    <div class="box">
+        <!-- <img src="./img/body.png" alt=""> -->
+        <canvas id="canvas" width="500" height="340"></canvas>
+    </div>
+    <button>保存图片</button>
+</body>
+</html>
+<script>
+   
+    var oCanvas =document.getElementById("canvas");
+    var cxt =oCanvas.getContext("2d");
+    cxt.lineWidth =1;
+    var posX =0;
+    var posY =0;
+    var position =null;
+
+    oCanvas.addEventListener("touchstart",function(){
+        console.log(event);
+        // console.log(event.changedTouches[0].clientX);
+    posX = event.changedTouches[0].clientX - document.getElementsByClassName('box')[0].offsetLeft;
+    posY = event.changedTouches[0].clientY - document.getElementsByClassName('box')[0].offsetTop;
+    cxt.moveTo(posX,posY);
+    oCanvas.addEventListener("touchmove",function(){
+    var endX = event.changedTouches[0].clientX - document.getElementsByClassName('box')[0].offsetLeft;
+    var endY = event.changedTouches[0].clientY - document.getElementsByClassName('box')[0].offsetTop;
+    cxt.lineTo(endX,endY);
+    cxt.stroke();
+    });
+    });
+    document.getElementsByTagName('button')[0].onclick = function(){
+        var image = new Image();
+        image.src = oCanvas.toDataURL("image/png");
+        console.log(image);
+        image.style.background = 'url("./img/body.png") no-repeat center center'
+        // oCanvas.drawImage(image,0,0);
+        if(document.getElementsByTagName('img').length == 0){
+            document.body.appendChild(image);
+        } else {
+            document.body.removeChild(document.getElementsByTagName('img')[0]);
+            document.body.appendChild(image);
+        }    
+        // oCanvas.toBlob(function(blob) {
+        //     console.log(blob);
+        //     //创建forme
+        //     var form = new FormData();
+        //     // form.append('file', blob); 
+        //     form.append('name','aaa');
+        //     console.log(form);
+           
+        // });
+        }
+    
+</script>

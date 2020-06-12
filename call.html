@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link ref="shortcut icon" href="/img/favicon.ico" mce_href='/img/favicon.ico' type='image/x-icon'>
+    <title>Document</title>
+</head>
+<body>
+    <button>拨号</button>
+    <li><label>宝宝民族</label><select id="national">
+        <option selected value="">请选择</option>
+        <option value="汉族">汉族</option>
+        <option value="壮族">壮族</option>
+        <option value="回族">回族</option>
+        <option value="满族">满族</option>
+        <option value="蒙古族">蒙古族</option>
+        <option value="其他">其他</option>
+        </select>
+        <input type="text" id="nationalTxt" placeholder="请选择">
+    </li>
+</body>
+</html>
+<script src="./js/jquery-1.11.3.min.js"></script>
+<script>
+    // 调用拨号功能
+    document.getElementsByTagName('button')[0].onclick = function(){
+        window.location.href  = "tel://" + 13121182569;
+    }
+    document.getElementById("national").onchange = function(){
+    document.getElementById("nationalTxt").value = $("#national").find("option:selected").text();
+}
+
+
+</script>

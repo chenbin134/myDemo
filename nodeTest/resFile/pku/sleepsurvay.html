@@ -1,0 +1,273 @@
+<!-- <%@ Page Language="C#" AutoEventWireup="true" CodeFile="sleepsurvay.aspx.cs" Inherits="sleepsurvay" %> -->
+<!doctype html>
+<html lang="zh-cn">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection"content="telephone=no, email=no" />
+<title>宝宝睡眠评估</title>
+<link rel="stylesheet" href="css/m1.css?v=v1">
+<script type="text/javascript" src="js/mobile.js"></script>
+   <style>
+    .wrapper{width:640px;overflow:hidden; position:absolute; top: 0; left: 0;height:1040px; display: none;}
+     #Success, #Success2{z-index: 99999;background: white}
+    #Success a.btn01, #Success2 a.btn01{display: block;width: 442px;height: 90px;line-height: 90px;text-align: center;background: #ccecfa;font-size: 40px;font-weight: 700;color: #40b9eb;text-decoration: none;margin: 0 auto 30px auto;border-radius: 10px;}
+    #Success h1,#Success2 h1{color: #f57a8e;font-size: 48px;text-align: center;padding: 160px 0 125px 0;margin: 0;}
+    .mySelect {
+    color: #f57a8e;
+    text-align: center;
+    width: 96px;
+    margin: 0;
+    font-weight: 300;
+    font-size: 32px;
+    border: 0;
+    border-bottom: #f57a8e solid 1px;
+    border-radius: 0;
+    height: 42px;
+    line-height: 32px;
+    padding-left: 32px;
+    box-sizing: border-box;
+}
+  </style>
+</head>
+<body>
+<div class="wrapper" id="SurvaySleep">
+	<div class="ques" id="ques01">
+    	<div class="title">您的宝宝<br><span>大部分时间睡在哪里？</span></div>
+    	<div class="pic"><img src="img/survaysleep-pic01.jpg" class="survay-pic" /></div>
+    	<div class="scroll-pane-s01-1">
+    	<ul class="options option1">
+    		<li>婴儿床、独立房间</li>
+    		<li>婴儿床、父母房间</li>
+            <li>与父母同床</li>
+            <li>婴儿床、与兄弟姐妹同房睡</li>
+            <li>其他</li>
+    	</ul>
+    	</div>
+    </div>
+    <div class="ques" id="ques02">
+    	<div class="title">您的宝宝<br>大多时间以什么姿势睡觉？</div>
+        <div class="pic"><img src="img/survaysleep-pic02.jpg" class="survay-pic" /></div>
+    	<div class="scroll-pane-s01-2">
+        <ul class="options option2">
+            <li>趴睡</li>
+            <li>侧睡</li>
+            <li>仰睡</li>
+        </ul>
+        </div>
+    </div>
+    <div class="ques" id="ques03">
+    	<div class="title">您的宝宝<br>
+<!-- 晚上睡<input type="number">小时<br> -->
+晚上睡
+    <select class="mySelect">
+            <option selected value=""></option>\
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option> 
+            <option value="7">7</option>       
+            <option value="8">8</option>       
+            <option value="9">9</option>
+            <option value="10">10</option>       
+            <option value="11">11</option>       
+            <option value="12">12</option>       
+            </select>
+    小时<br>
+
+<span>（晚上7点至早上7点）?</span></div>
+        <div class="pic"><img src="img/survaysleep-pic03.jpg" class="survay-pic" /></div>       	
+    </div>
+    <div class="ques" id="ques04">
+        <div class="title">您的宝宝<br>
+白天睡
+<select class="mySelect">
+        <option selected value=""></option>\
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option> 
+        <option value="7">7</option>       
+        <option value="8">8</option>       
+        <option value="9">9</option>
+        <option value="10">10</option>       
+        <option value="11">11</option>       
+        <option value="12">12</option>       
+        </select>
+小时<br>
+<!-- <input type="number">小时<br> -->
+<span>（早上7点至晚上7点）?</span></div>
+        <div class="pic"><img src="img/survaysleep-pic04.jpg" class="survay-pic" /></div>           
+    </div>
+    <div class="ques" id="ques05">
+        <div class="title">您的宝宝<br>
+每晚平均醒来
+<select class="mySelect">
+        <option selected value=""></option>\
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option> 
+        <option value="7">7</option>       
+        <option value="8">8</option>       
+        <option value="9">9</option>
+        <option value="10">10</option>       
+        <option value="11">11</option>       
+        <option value="12">12</option>       
+        </select>
+次？</div>
+        <div class="pic"><img src="img/survaysleep-pic05.jpg" class="survay-pic" /></div>           
+    </div>
+    <div class="ques" id="ques06">
+        <div class="title">您的宝宝每天晚上<br>
+有多长时间醒着?
+<select class="mySelect">
+        <option selected value=""></option>\
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option> 
+        <option value="7">7</option>       
+        <option value="8">8</option>            
+        </select>
+小时<br>
+<!-- <input type="number">小时<br> -->
+<span>（晚上10点至早上6点之间）</span></div>
+        <div class="pic"><img src="img/survaysleep-pic06.jpg" class="survay-pic" /></div>           
+    </div>
+    <div class="ques" id="ques07">
+        <div class="title">晚上需要多久才能<br>
+让您的宝宝入睡？
+<select class="mySelect">
+        <option selected value=""></option>\
+        <option value="0">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option> 
+        <option value="7">7</option>       
+        <option value="8">8</option>       
+        <option value="9">9</option>
+        <option value="10">10</option>       
+        <option value="11">11</option>       
+        <option value="12">12</option>       
+        </select>
+小时</div>
+        <div class="pic"><img src="img/survaysleep-pic07.jpg" class="survay-pic" /></div>           
+    </div>
+    <div class="ques" id="ques08">
+        <div class="title">您的宝宝<br>最常见的入眠方式？ </div>
+        <div class="pic"><img src="img/survaysleep-pic08.jpg" class="survay-pic" /></div>
+        <div class="scroll-pane-s01-8">
+        <ul class="options option8">
+            <li>喂养时</li>
+            <li>抱着时</li>
+            <li>摇晃时</li>
+            <li>自己在床上时</li>
+            <li>与父母同床时</li>
+        </ul>
+        </div>
+    </div>
+    <div class="ques" id="ques09">
+        <div class="title">您的宝宝<br>
+通常晚上几点睡着:<br>
+<select class="mySelect">
+        <option selected value=""></option>
+        <option value="17">17</option>       
+        <option value="18">18</option>       
+        <option value="19">19</option>       
+        <option value="20">20</option>       
+        <option value="21">21</option>       
+        <option value="22">22</option>       
+        <option value="23">23</option>       
+        <option value="24">24</option>    
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option> 
+        <option value="7">7</option>       
+        <option value="8">8</option>       
+        <option value="9">9</option>
+        <option value="10">10</option>       
+        <option value="11">11</option>       
+        <option value="12">12</option>       
+        <option value="13">13</option>       
+        <option value="14">14</option>       
+        <option value="15">15</option>       
+        <option value="16">16</option>             
+        </select>
+点<select class="mySelect">
+    <option selected value=""></option>
+</select>
+分</div>
+        <div class="pic"><img src="img/survaysleep-pic09.jpg" class="survay-pic" /></div>           
+    </div>
+    <div class="ques" id="ques10">
+        <div class="title">您认为<br>您宝宝的睡眠是个问题吗?</div>
+        <div class="pic"><img src="img/survaysleep-pic10.jpg" class="survay-pic" /></div>
+        <div class="scroll-pane-s01-10">
+        <ul class="options option10">
+            <li>非常严重的问题</li>
+            <li>小问题</li>
+            <li>不是问题</li>
+        </ul>
+        </div>
+    </div>
+
+    <div class="footernav">
+        <img src="img/icon-left.png" class="btn-prev" />
+        <div class="progress">
+            <div class="line"><span></span></div>
+            <div class="numrate"><div class="num"><span id="curnum"></span>/<b id="totalnum"></b></div></div>
+        </div>
+        <img src="img/icon-right.png" class="btn-next" />
+    </div>
+</div>
+
+<div id="Mask"></div>
+<div id="popupresult">
+    <img src="img/icon-close2.png" class="icon-close2" />
+    <h1>恭喜您，完成所有问答，<br>
+确认提交查看评估结果。</h1>
+    <div class="btns">
+        <a href="javascript:;" class="btn-qr">确 认</a>
+        <a href="javascript:;" class="btn-qx">取 消</a>
+    </div>
+</div>
+<div id="popuptip">
+    <img src="img/icon-close2.png" class="icon-close3" />
+    <h1></h1>
+</div>
+<div class="wrapper" id="Success" runat="server">
+ <h1><%=aibing.com.Aspnet.GetAppString("nobaby") %></h1>
+<a href="javascript:wx.closeWindow();" class="btn01">确认</a>
+</div>
+<div class="wrapper" id="Success2" runat="server">
+ <h1> 请先完善宝宝信息</h1>
+<a href="/modifybabyinfo.aspx" class="btn01">确认</a>
+</div>
+
+
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/sleepsurvay.js?v=1"></script>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/share.js"></script> 
+</body>
+</html>

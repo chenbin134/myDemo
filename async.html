@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+
+    </style>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+    function time1(){
+        return new Promise((resolve,reject) => {
+            setTimeout(() => {
+                console.log('timer end');
+                resolve(1);
+                // reject(1);
+            }, 3000);
+        })
+    }
+    function time2(){
+        setTimeout(() => {
+            console.log('timer 2 not promise');
+        }, 1000);
+        console.log('timeout');
+        return 'return timeout'
+    }
+    function normalFun(){
+        console.log('normal function');
+        return 'normal function'
+    }
+
+    async function async1() {
+        console.log('async start');
+        const pro = await time1(); 
+        const pro2 = await time2();
+        const pro3 = await normalFun();
+        console.log(pro);
+        console.log(pro2);
+        console.log(pro3);
+        console.log('await end');
+
+    }
+    async1();
+    // async1().then(()=>{
+    //     console.log('async is a promise');
+    // });
+    // console.log('main thread');
+
+
+    // async function async1() {
+    //     console.log('async1 start')
+    //     await async2()
+    //     console.log('async1 end')
+    // }
+    // async function async2() {
+    //     console.log('async2')
+    // }
+    // async1()
+    // console.log('script start')
+        // async1 start
+        // async.html:96 async2
+        // async.html:99 script start
+        // async.html:93 async1 end
+
+
+    // async function async1() {
+    //     console.log("async1 start");
+    //     await async2();
+    //     console.log("async1 end");
+    // }
+
+    // async function async2() {
+    //     console.log("async2");
+    // }
+
+    // console.log("script start");
+
+    // setTimeout(function () {
+    //     console.log("setTimeout");
+    // }, 0);
+
+    // async1();
+
+    // new Promise(function (resolve) {
+    //     console.log("promise1");
+    //     resolve();
+    // }).then(function () {
+    //     console.log("promise2");
+    // });
+
+    // console.log("script end");
+
+
+
+    // let a = [1,2,3]
+    // let [...d] = a
+    // console.log(d);
+    // let [b,...c] = a;
+    // console.log(b);
+    // console.log(c);
+    // console.log(...a);
+    // console.log([...a]);
+    // const obj = {
+    //     name:'james',
+    //     age:23
+    // }
+    // console.log({...obj});
+    // console.log(Object.entries(obj));
+
+    
+</script>

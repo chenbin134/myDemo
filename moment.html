@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="./moment.js"></script>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+</body>
+
+</html>
+<script>
+    var start = moment().add(1, 'days').set({
+        'hour': 4,
+        'minute': 30
+    });
+    var end = moment().add(1, 'days').set({
+        'hour': 21,
+        'minute': 0
+    });
+    var target = moment().add(1, 'days').set({
+        'hour': 5,
+        'minute': 10
+    });
+    console.log(start, end, target)
+    console.log(target.isBetween(start, end))
+
+    var date = '2019-10-21';
+    var m = moment(date);
+    var now = moment();
+    console.log(now.diff(m, 'days'))
+
+    var a = moment([2007, 0, 29]);
+    var b = moment([2007, 0, 28]);
+    console.log(a.diff(b, 'days'))
+    var task = {
+        "1": [{
+            "day": 1,
+            "outday": 2,
+            "sid": 4
+        }, {
+            "day": 1,
+            "outday": 2,
+            "sid": 5
+        }, {
+            "day": 1,
+            "outday": 2,
+            "sid": 6
+        }],
+        "2": [{
+            "day": 2,
+            "outday": 3,
+            "sid": 5
+        }, {
+            "day": 2,
+            "outday": 3,
+            "sid": 6
+        }],
+
+    }
+    var eventLog = [{
+        "days": 1,
+        "eventType": 2,
+        "idx": 121,
+        "insertDate": "2019-09-25 18:28:10",
+        "openid": "o-v67vyI0umkxBnvN16ggOgx-TZ8",
+        "pid": null,
+        "sid": 4,
+        "times": 12,
+        "updateTime": "2019-09-25 18:38:18",
+        "userId": 14
+    }, {
+        "days": 1,
+        "eventType": 1,
+        "idx": 122,
+        "insertDate": "2019-09-25 18:37:09",
+        "openid": "o-v67vyI0umkxBnvN16ggOgx-TZ8",
+        "pid": null,
+        "sid": 6,
+        "times": 1,
+        "updateTime": null,
+        "userId": 14
+    }, {
+        "days": 1,
+        "eventType": 1,
+        "idx": 122,
+        "insertDate": "2019-09-25 18:37:09",
+        "openid": "o-v67vyI0umkxBnvN16ggOgx-TZ8",
+        "pid": null,
+        "sid": 5,
+        "times": 1,
+        "updateTime": null,
+        "userId": 14
+    }]
+
+
+    function _includes(currentTask, eventLog, days) {
+        var flag = false; // 是否有没做过的 true为是
+        var aa = '';
+        for (let t = 0; t < currentTask.length; t++) { // 判断今天的任务是否都做过了
+            let isInclude = false;
+            for (let a = 0; a < eventLog.length; a++) {
+                if (currentTask[t].sid == eventLog[a].sid && eventLog[a].days == days) {
+                    isInclude = true;
+                    break;
+                }
+            }
+            if (!isInclude) { // 不包含,说明这天这个任务没有做过
+                flag = true;
+                aa = t
+                break; // t
+            }
+        }
+        return {
+            'flag': flag,
+            't': aa
+        };
+    }
+
+    var arg1 = task['1'];
+    var a = _includes(arg1, eventLog, 1);
+    console.log(a)
+</script>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <canvas width='300' height="300" id="canvas"></canvas>
+    <!-- <img id="img" style="display:none"> -->
+</body>
+</html>
+<script>
+    // console.log(document.getElementById('img'));
+    // var img = document.getElementById('img')
+    
+    var canvas = document.getElementById('canvas');
+    var context = canvas.getContext('2d');
+    var img = document.createElement('img');
+    img.src = './img/body.png'
+    setTimeout(() => {
+        
+        context.drawImage(img,0,0,490,1100);
+    }, 300);
+</script>

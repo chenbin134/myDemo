@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>position = sticky</title>
+    <style>
+        .outer {
+            display: flex;
+        }
+        .trans {
+            position: relative;
+            width: 100px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            border: 1px solid #eeeeee;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 40px;
+            font-size: 16px;
+            background: pink;
+            transform: skewX(30deg);
+        }
+        .trans .inner {
+            position: absolute;
+            /* left: 0;
+            top: 0; */
+            transform: skewX(-30deg);
+        }
+        .container {
+            width: 100%;
+            height: 2000px;
+        }
+        section {
+            width:330px;
+            margin:0 auto;
+            border: 1px solid #dddddd;
+            border-radius: 20px;
+            /* overflow: hidden;  如果有overflow设置，粘性布局将失效 */
+        }
+        .stickyBox {
+            position: sticky;
+            /* 必须指定top  left right 等值，父级元素不能有除了overflow:visib的值 */
+            top: 0; 
+            width: 100%;
+            height: 30px;
+            background-color: bisque;
+            border-radius: 20px 20px 0 0;
+            padding-left: 20px;
+            box-sizing: border-box;
+            line-height: 30px;
+        }
+        .box {
+            height: 400px;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="outer">
+        <div class="trans">
+            <span class="inner">全部患者</span>
+        </div>
+        <div class="trans">
+            <span class="inner">全部患者</span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <section>
+            <div class="stickyBox">title1</div>
+            <div class="box">法律监督是六块腹肌大家来访接待室浪费的来访接待室了法律看到事件发生家里的分水岭法律的事件分弗拉索夫</div>
+        </section>
+        <section>
+            <div class="stickyBox">title2</div>
+            <div class="box">法律监督是六块腹肌大家来访接待室浪费的来访接待室了法律看到事件发生家里的分水岭法律的事件分弗拉索夫</div>
+        </section>
+        <section>
+            <div class="stickyBox">title3</div>
+            <div class="box">法律监督是六块腹肌大家来访接待室浪费的来访接待室了法律看到事件发生家里的分水岭法律的事件分弗拉索夫</div>
+        </section>
+        <section>
+            <div class="stickyBox">title4</div>
+            <div class="box">法律监督是六块腹肌大家来访接待室浪费的来访接待室了法律看到事件发生家里的分水岭法律的事件分弗拉索夫</div>
+        </section>
+        <section>
+            <div class="stickyBox">title5</div>
+            <div class="box">法律监督是六块腹肌大家来访接待室浪费的来访接待室了法律看到事件发生家里的分水岭法律的事件分弗拉索夫</div>
+        </section>
+    </div>
+</body>
+</html>

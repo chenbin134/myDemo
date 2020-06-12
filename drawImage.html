@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./js/mobile.js"></script>
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            
+        }
+        
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+</body>
+</html>
+<script>
+     let canvas = document.getElementById("canvas");
+     var cWidth = document.documentElement.clientWidth;
+     var cHeight = document.documentElement.clientHeight;
+     canvas.width = cWidth;
+     canvas.height = cHeight;
+    //   console.log(canvas);
+        context = canvas.getContext("2d");
+      const img = new Image();
+      img.src = './img/body.png'
+      img.onload = () => {
+        console.log('imgLoad');
+         this.context.drawImage(img,0,0,cWidth,cHeight);
+      }
+</script>

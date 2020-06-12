@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .container::after {
+            display: block;
+            content:  '';
+            clear: both;
+        }
+        .left {
+            float: left;
+            width: 200px;
+            height: 500px;
+            background: pink;
+        }
+        .right {
+            float: left;
+            height: 500px;
+            width: calc(100% - 200px);
+            /* calc 函数的符号左右两边有空格 */
+            background: green;
+        }
+    
+    </style>
+</head>
+<body>
+    <!-- 两栏布局，左侧固定宽度，右侧自适应。浮动，左侧固定宽度，右侧使用calc来确定右侧宽度 -->
+    <div class="container">
+        <div class="left">left</div>
+        <div class="right">right</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+</body>
+
+</html>
+<script>
+    // 实例方法和实例属性 通过对象实例访问的
+    Person.prototype.cry = function() {
+            console.log('instance method');
+            console.log(this)
+        } // 原型
+    Person.prototype.father = 'aaaa'
+
+    function Person(name, age) { // 构造函数
+        this.name = name;
+        this.age = age;
+    }
+    // 静态属性和静态方法  通过构造函数直接访问的
+    Person.aa = function() {
+        console.log('static method')
+    }
+    Person.bb = 'static prop'
+    var mm = new Person('mm', 'man');
+    mm.bb = function() {
+            var a = 1
+        } // 对象属性
+
+    function Man() {
+
+    }
+    var man = new Man()
+    Person.call(man, 'name', 14)
+
+    // ---------------
+    class Ani {
+        constructor(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        static staticProp = 'static';
+        static staticFun = function() {
+            console.log('static method')
+        }
+
+        instanceProp = 'instance props';
+        instanceFun = function() {
+            console.log('instatce Method')
+        }
+    }
+
+    class Cat extends Ani {
+        constructor(name, age, color) {
+            super(name, age)
+            this.color = color
+        }
+
+    }
+
+    var ani = new Ani('dongwu', 12);
+    var cat = new Cat('cat', 2, 'red');
+
+    class Demo {
+        constructor(name, age) {
+            this.name = name;
+            this.age = age;
+        }
+        fn = function() {
+                console.log(this)
+                console.log(this.name)
+            } // 这种形式是对象的属性
+        fn2() {
+                console.log(this.fn)
+            } // 这种会放在原型上
+        static fn3() {
+            console.log(this)
+        }
+    }
+
+    const demo = new Demo('name', 'age');
+    demo.fn4 = function() {
+        const b = 44;
+    }
+</script>

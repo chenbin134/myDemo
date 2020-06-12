@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+</html>
+<script>
+var ss = [{"nodeId":"04","name":"走进我们","isHaveChild":1,"isChecked":true},
+        {"nodeId":"10","name":"办公平台","isHaveChild":1,"isChecked":true},
+        {"nodeId":"0402","name":"荣誉介绍","isChecked":false,"isHaveChild":0},
+        {"nodeId":"1017","name":"个人办公","isChecked":false,"isHaveChild":1},
+        {"nodeId":"101701","name":"内部邮件","isChecked":false,"isHaveChild":0},
+        {"nodeId":"101702","name":"通讯录","isChecked":false,"isHaveChild":0},
+        {"nodeId":"101703","name":"个人设置","isChecked":false,"isHaveChild":0},
+        {"nodeId":"1018","name":"公共事务","isChecked":false,"isHaveChild":0},
+        {"nodeId":"1019","name":"公文合同","isChecked":false,"isHaveChild":0},
+        {"nodeId":"1020","name":"公共信息","isChecked":false,"isHaveChild":0}
+        ];
+var finalNum = 0;
+//对数据进行排序和增加父级ID，children
+function binaryInsertionSort(array) {
+    if (Object.prototype.toString.call(array).slice(8, -1) === 'Array') { 
+ 
+        for (var i = 0; i < array.length; i++) {
+			if(array[i].nodeId.length>2){
+				array[i].pId = array[i].nodeId.substr(0,array[i].nodeId.length-2);
+			}else{
+				array[i].pId = '0';
+				finalNum++;
+			}
+			if(array[i].isHaveChild==1){
+				array[i].children = [];
+			}
+            var key = array[i], left = 0, right = i - 1;
+            while (left <= right) {
+                var middle = parseInt((left + right) / 2);
+                if (key.nodeId < array[middle].nodeId) {
+                    right = middle - 1;
+                } else {
+                    left = middle + 1;
+                }
+            }
+            for (var j = i - 1; j >= left; j--) {
+                array[j + 1] = array[j];
+            }
+            array[left] = key;
+        } 
+ 
+        return array;
+    } else {
+        return 'array is not an Array!';
+    }
+} 
+var aa =  binaryInsertionSort(ss);  
+//对排序好的数据进行树结构拼写
+function arrange(aa){
+	for(var i=aa.length-1;i>=0;i--){
+		for(var j=i; j>=0; j--){
+			if(aa[j].pId&&aa[i]){
+				if(aa[i].pId==aa[j].nodeId){ 
+				aa[j].children.push(aa[i]);
+				aa.splice(i,1); 	
+				}
+			} 
+		} 
+	} 
+	if(aa.length>finalNum){
+		console.log(aa)
+		arrange(aa);
+	} 
+}
+arrange(aa);
+console.log(aa) 
+ 
+     
+</script>

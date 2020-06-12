@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <button>send</button>
+</body>
+</html>
+<script src="../node_modules/axios/dist/axios.min.js"></script>
+<script>
+    var button = document.getElementsByTagName('button')[0];
+    var obj = {
+        name:'james',
+        age:12,
+        page:{
+            current:1,
+            limit:10,
+            pre:[1,2,3,4]
+        },
+        arr:['a','b','c','d']
+    }
+    button.onclick = function(){
+        axios.post('http://192.168.2.93:3000/post', obj)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+</script>

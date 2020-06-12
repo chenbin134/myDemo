@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* 定义css变量，使用--变量名的方式 */
+        :root {
+             --fontColor : #dd5a43;
+             --bgColor : #FCF8E3;
+        }
+        body {
+            background: #dcdccd;
+            }
+        h1 {
+            width: 700px;
+            height: 80px;
+            border-radius: 8px;
+            border: 1px solid #FAEBCC;
+            /* 使用css定义的变量，var(--变量名,默认参数) ，如果没有这个变量则第二个参数生效 */
+            background: var(--bgColor);
+            color: var(--fontColor,#000);
+            font-size: 32px;
+            text-align: center;
+            line-height: 80px;
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 50px;
+
+        }
+    
+    
+    </style>
+</head>
+<body>
+   <h1>提示： A2研究已结束，系统停止服务</h1> 
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app-01">
+        <anchored-heading :level="1">
+            hello world
+        </anchored-heading>
+    </div>
+</body>
+
+</html>
+<script src="./js/vue.js"></script>
+<script>
+    //创建一个查找并递归子文本的函数
+    var getChildrenTextContent = function(children) {
+        console.log(children)
+        return children.map(function(node) {
+            return node.children ? getChildrenTextContent(node.children) : node.text
+        }).join('')
+    }
+    Vue.component('anchored-heading', {
+        render: function(createElement) {
+            var headingId = getChildrenTextContent(this.$slots.default)
+                .toLowerCase()
+                //把非字符替换成'-'
+                .replace(/\W+/g, '-')
+                //把开头结尾的‘-’替换为空
+                .replace(/(^\-|\-$)/g, '')
+
+            return createElement(
+                'h' + this.level, [
+                    createElement('a', {
+                        attrs: {
+                            name: headingId,
+                            href: '#' + headingId
+                        }
+                    }, this.$slots.default)
+                ]
+            )
+        },
+        props: {
+            level: {
+                type: Number,
+                required: true
+            }
+        }
+    })
+    var app01 = new Vue({
+        el: '#app-01',
+        data: {
+            level: ''
+        }
+    })
+</script>

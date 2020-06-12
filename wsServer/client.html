@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #content{
+            width: 300px;
+            border: 1px solid red;
+            margin-top: 20px;
+        }
+    
+    </style>
+</head>
+<body>
+    <input type="text">
+    <button>点击发送消息</button>
+    <div id="content"></div>
+</body>
+</html>
+<script>
+    const content = document.getElementById('content');
+    const socket = new WebSocket('ws://localhost:8081');
+    socket.onopen = (e) => {
+        console.log(e);
+        console.log('connect successful');
+    }
+    socket.onmessage = (e) => {
+        console.log(e.data);
+        const box = document.createElement('div');
+        box.innerHTML = e.data
+        content.append(box);
+    }
+    const btn = document.querySelector('button');
+    btn.onclick = () => {
+        const value = document.querySelector('input').value;
+        if(value.trim() == ''){
+            socket.send('客户端发送数据');
+        }else {
+            socket.send(value);
+            document.querySelector('input').value = '';
+        }
+       
+    }
+
+</script>
