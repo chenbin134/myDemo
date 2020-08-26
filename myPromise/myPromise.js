@@ -72,8 +72,8 @@ class Promise {
     }
     then(onFulfilled, onRejected) {
         // onFulfilled onRejected 是可选参数,如果不传默认添加一个函数为then添加返回值
-        onFulfilled = onFulfilled ? onFulfilled : value => value;
-        onRejected = onRejected ? onRejected : reason => {
+        onFulfilled = typeof onFulfilled  == 'function' ? onFulfilled : value => value;
+        onRejected = typeof onRejected == 'function' ? onRejected : reason => {
             throw reason
         }
         // 支持链式调用，返回一个新的promise
