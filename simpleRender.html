@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>简易实现vue挂载操作</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- <div>
+            <div>
+                <span>vue：</span>
+                <span>计数器：3</span>
+            </div>
+            <button>开始计数</button>
+        </div> -->
+    </div>
+</body>
+
+</html>
+<script>
+    let app = document.getElementById('app');
+    let vnode = {
+        tag: 'div',
+        children: [
+            {
+                tag: 'div',
+                children: [
+                    {
+                        tag: 'span',
+                        children: 'vue-reander'
+                    },
+                    {
+                        tag: 'span',
+                        children: '计数器：3'
+                    }
+                ]
+            },
+            {
+                tag: 'button',
+                children: '开始计数'
+            }
+        ]
+    }
+    setTimeout(() => {
+        render(vnode,app);
+    }, 3000);
+
+
+    function render(vnode,container) {
+        patch(null,vnode,container);// 首次渲染
+    }
+
+    function patch(oldVnode,newVnode,container){
+        if(typeof newVnode.tag == 'string'){
+            mountElement(newVnode,container);
+        } else if(typeof newVnode == 'object') {
+            // mountComponent(newVnode,container);
+        }
+    }
+
+    function mountElement(vnode,container){
+        let {tag,children} = vnode;
+            // 普通html标签
+            let el = vnode.el = document.createElement(tag);
+            if(children && Array.isArray(children)) {
+                mountChildren(children,el) 
+            } else {
+                // 文本子节点
+                el.innerText = children;
+            }
+
+            container.appendChild(el);
+    }
+
+    function mountChildren(children,container){
+        for(let i =0;i<children.length;i++) {
+            patch(null,children[i],container)
+        }
+    }
+
+
+
+</script>
