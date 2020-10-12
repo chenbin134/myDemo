@@ -50,10 +50,24 @@
 
 
     function render(vnode,container) {
-        patch(null,vnode,container);// 首次渲染
+        let oldVnode = container.vnode;
+        if(oldVnode == null) {
+            mount(vnode,container);// 首次渲染
+            container.vnode = vnode;
+        } else {
+            if(vnode) {
+                // patch(oldVnode,vnode,container);
+                container.vnode = vnode
+            } else {
+                // 有旧的，没有新的,说明移除dom
+                container.removeChild(oldVnode.el);
+                container.vnode = null;
+            }
+            
+        }
     }
 
-    function patch(oldVnode,newVnode,container){
+    function mount(newVnode,container){
         if(typeof newVnode.tag == 'string'){
             mountElement(newVnode,container);
         } else if(typeof newVnode == 'object') {
@@ -77,7 +91,7 @@
 
     function mountChildren(children,container){
         for(let i =0;i<children.length;i++) {
-            patch(null,children[i],container)
+            mount(children[i],container)
         }
     }
 
