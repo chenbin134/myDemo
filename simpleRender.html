@@ -24,38 +24,65 @@
     let app = document.getElementById('app');
     let vnode = {
         tag: 'div',
+        props: {
+            style: {
+                background: '#ccc'
+            },
+            id: 'mydiv'
+        },
         children: [
             {
                 tag: 'div',
+                props: {
+                    style: {
+                        color: 'red',
+                        background: 'blue'
+                    }
+                },
                 children: [
                     {
                         tag: 'span',
-                        children: 'vue-reander'
+                        children: 'vue-reander',
+                        props: {
+                            style: {
+                                color: 'yellow'
+                            }
+                        }
                     },
                     {
                         tag: 'span',
-                        children: '计数器：3'
+                        children: '计数器：3',
+                        props: {
+                            style: {
+                                color: 'yellow'
+                            }
+                        }
                     }
                 ]
             },
             {
                 tag: 'button',
-                children: '开始计数'
+                children: '开始计数',
+                props: {
+                    style: {
+                        border: '1px solid red'
+                    }
+                }
             }
         ]
     }
     setTimeout(() => {
-        render(vnode,app);
+        render(vnode, app);
     }, 3000);
 
 
-    function render(vnode,container) {
+    function render(vnode, container) {
         let oldVnode = container.vnode;
-        if(oldVnode == null) {
-            mount(vnode,container);// 首次渲染
+        if (oldVnode == null) {
+            mount(vnode, container);// 首次渲染
             container.vnode = vnode;
         } else {
-            if(vnode) {
+            if (vnode) {
                 // patch(oldVnode,vnode,container);
                 container.vnode = vnode
             } else {
@@ -63,35 +90,53 @@
                 container.removeChild(oldVnode.el);
                 container.vnode = null;
             }
-            
+
         }
     }
 
-    function mount(newVnode,container){
-        if(typeof newVnode.tag == 'string'){
-            mountElement(newVnode,container);
-        } else if(typeof newVnode == 'object') {
+    function mount(newVnode, container) {
+        if (typeof newVnode.tag == 'string') {
+            mountElement(newVnode, container);
+        } else if (typeof newVnode == 'object') {
             // mountComponent(newVnode,container);
         }
     }
 
-    function mountElement(vnode,container){
-        let {tag,children} = vnode;
-            // 普通html标签
-            let el = vnode.el = document.createElement(tag);
-            if(children && Array.isArray(children)) {
-                mountChildren(children,el) 
-            } else {
-                // 文本子节点
-                el.innerText = children;
-            }
+    function mountElement(vnode, container) {
+        let { tag, children, props } = vnode;
+        // 普通html标签
+        let el = vnode.el = document.createElement(tag);
+        if (children && Array.isArray(children)) {
+            mountChildren(children, el)
+        } else {
+            // 文本子节点
+            el.innerText = children;
+        }
 
-            container.appendChild(el);
+        mountProps(props, el);
+
+        container.appendChild(el);
     }
 
-    function mountChildren(children,container){
-        for(let i =0;i<children.length;i++) {
-            mount(children[i],container)
+    function mountChildren(children, container) {
+        for (let i = 0; i < children.length; i++) {
+            mount(children[i], container)
+        }
+    }
+
+    function mountProps(props, target) {
+        for (let key in props) {
+            if (key == 'style') {
+                bindStyle(props[key], target);
+            } else {
+                target[key] = props[key]
+            }
+        }
+    }
+
+    function bindStyle(style,target) {
+        for (let styleKey in style) {
+             target.style[styleKey] = style[styleKey];
         }
     }
 
