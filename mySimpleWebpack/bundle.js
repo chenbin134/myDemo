@@ -1,5 +1,5 @@
 /**
- * 简单模拟webapck打包以及处理依赖
+ * 简单模拟webapck打包以及处理依赖,执行后生成dist/bundle.js
  */
 const fs = require('fs')
 const path = require('path')
@@ -64,10 +64,32 @@ const parseModule = (file) => {
       code:moduleInfo.code
     }
   })
-  console.log(depsGraph)
-
-
+  // console.log(depsGraph)
+  return depsGraph
 }
 
-parseModule('./src/index.js')
+const bundle = (file) => {
+  const depsGraph = JSON.stringify(parseModule(file))
+  return `(function (graph) {
+      function require(file) {
+          function absRequire(relPath) {
+              return require(graph[file].deps[relPath])
+          }
+          var exports = {};
+          (function (require,exports,code) {
+              eval(code)
+          })(absRequire,exports,graph[file].code)
+          return exports
+      }
+      require('${file}')
+  })(${depsGraph})`
+}
+
+const content = bundle('./src/index.js')
+
+fs.mkdirSync('./dist');
+
+fs.writeFileSync('./dist/bundle.js',content)
+
+
 
