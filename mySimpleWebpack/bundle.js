@@ -87,7 +87,13 @@ const bundle = (file) => {
 
 const content = bundle('./src/index.js')
 
-fs.mkdirSync('./dist');
+if(fs.existsSync('./dist/bundle.js')) {
+
+  fs.unlinkSync('./dist/bundle.js')
+
+}
+
+// fs.mkdirSync('./dist');
 
 fs.writeFileSync('./dist/bundle.js',content)
 
