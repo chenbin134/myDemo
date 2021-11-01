@@ -1,3 +1,4 @@
+"use strict";
 // 枚举
 var gender;
 (function (gender) {
@@ -28,5 +29,6 @@ function cb() {
     };
     return [s, f];
 }
-var _a = cb(), s = _a[0], f = _a[1];
-console.log(f(1, 1));
+// let [s,f] = cb() as [string,Function];
+var _a = cb(), s = _a[0], f = _a[1]; // 因为cb方法返回的是(string | ((a: number, b: number) => number))[]类型的数组，所以解构的s或者f都是这种类型，无法准确区分哪个是function类型，所以这里用断言来明确f是function类型。
+console.log(f(1, 1)); // 2
