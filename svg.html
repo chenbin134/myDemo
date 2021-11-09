@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    svg {
+      stroke: #000;
+      stroke-width: 5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <!-- line 划线 x1 y1为起始位置的xy坐标，x2 y2为结束位置的xy坐标 -->
+    <!-- <svg width='300' height='200'>
+      <line x1='3' y1='3' x2='48' y2='3'></line>
+      <line x1='3' y1='19' x2='65' y2='19'></line>
+      <line x1='3' y1='35' x2='48' y2='35'></line>
+      <line x1='3' y1='51' x2='65' y2='51'></line>
+    </svg> -->
+
+    <!-- polyline 画折线  使用一对对的数字来设置一系列的点。点和点之间的线段会自动绘制出来。-->
+    <!-- <svg width='300' height='200'>
+      <polyline points='3 3,30 28,3 53'></polyline>
+    </svg> -->
+
+    <!-- <rect> 创建长方形和正方形;x：左上角的 x 轴坐标值;y：左上角的 y 轴坐标值;width：矩形的宽度;height：矩形的高度  -->
+    <!-- <svg width='300' height='200'>
+      <rect x='3' y='3' width='80' height='60'></rect>
+      <line x1='3' y1='19' x2='83' y2='19'></line>
+      <line x1='20' y1='3' x2='20' y2='17'></line>
+    </svg> -->
+
+    <!-- <ellipse>画椭圆 cx：中心位置在 x 轴上的坐标；cy：中心位置在 y 轴上的坐标；rx：沿 x 轴向的半径，也就是它会把图形分割成上下两部分；ry：沿 y 轴向的半径，也就是它会把图形分割成左右两部分 -->
+    <!-- <svg width='300' height='200'>
+      <ellipse cx='43' cy='43' rx='40' ry='40'></ellipse>
+      <line style="stroke-width:8px;" x1='43' y1='15' x2='43' y2='50'></line>
+      <ellipse style="fill:black;" cx="43" cy="65" rx="5" ry="5"></ellipse>
+    </svg> -->
+
+    <!-- <polygon> 元素和 <polyline> 元素几乎一样。他们都只有一个 points 属性，采用一对对的值的形式来设置每一个点从而组成一个形状。不同之处在于，折线 <polyline> 不是闭合的而多边形 <polygon> 是自动闭合的。  -->
+    <!-- <svg width='300' height='200'>
+      <ellipse cx='43' cy='43' rx='40' ry='40'></ellipse>
+      <polygon points='35 23,60 43,35 63'></polygon>
+    </svg> -->
+
+    <!-- <path> 的属性 d。d 代表 data，在这里，你将定义路径的所有点和线。在这个属性里，设置路径点和在点之间创建连线的命令是由诸如 M 或 L 这样的单个字母来提供的，然后是一组 x 和/或 y 坐标。  -->
+      <!-- M 表示移动到（moveto）。它用 x 值和 y 值来给定一条新的路径的起始点。可以想象成把你的鼠标放在画布上的某一点以准备开始绘画。大写的 M 表示移动到一个绝对坐标集合（小写的 m 表示移动到一个相对坐标集合）。 -->
+      <!-- L 表示划线到（lineto）。从当前位置到新的位置画一条线。大写的 L 表示移动到一个绝对坐标集合（小写的 l 表示移动到一个相对坐标集合）。 -->
+      <!-- Z 表示闭合路径。通过在当前点和路径的起始点之间画一条直线来闭合形状。 -->
+    <!-- <svg width='300' height='200'>
+      <path d='
+        M 18 3,
+        L 46 3
+        L 46 40
+        L 61 40
+        L 32  68
+        L 3 40
+        L 18 40
+        Z
+      '></path>
+    </svg> -->
+
+
+    <!-- 用标签 <g></g> 来包裹内容。为了使这个组合可用，我们还需要给它一个唯一的ID -->
+    <!-- 使用use标签来引用写好的svg，设置一个 href 属性指向想要的那个图标的 ID。 -->
+    <svg width="750" height="500">
+      <defs>
+        <g id="leftalign">
+          <line x1='3' y1='3' x2='48' y2='3'></line>
+          <line x1='3' y1='19' x2='65' y2='19'></line>
+          <line x1='3' y1='35' x2='48' y2='35'></line>
+          <line x1='3' y1='51' x2='65' y2='51'></line>
+        </g>
+
+        <g id="rightcaret">
+          <polyline points='3 3,30 28,3 53'></polyline>
+        </g>
+      </defs>
+
+      <use href='#leftalign'></use>
+      <use href='#rightcaret' x="100"></use>
+    </svg>
+    
+
+
+
+
+
+
+    <!-- <audio id="audio" src="https://sf1-cdn-tos.huoshanstatic.com/obj/media-fe/xgplayer_doc_video/music/audio.mp3"></audio>
+    <button id="button">开始</button> -->
+  </div>
+</body>
+</html>
+<script>
+// const audio = document.querySelector('#audio');
+// const button = document.querySelector('#button');
+// button.onclick = ()  => {
+//   console.log(audio)
+//   audio.play();
+// }
+</script>
