@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <picture>
+    <!-- 必须有img标签，否则不工作 -->
+    <source srcset="./webp.webp" sizes="">
+    <source media="(min-width: 700px)" srcset="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-race.webp?_v_=1635740497748" sizes="">
+    <source media="(max-width: 700px)" type="image/png" srcset="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-animation-delay.png?_v_=1635740497748" sizes="">
+    <img src="https://cdn.jsdelivr.net/gh/apache/echarts-website@asf-site/examples/data/thumb/bar-label-rotation.png?_v_=1635740497748" alt="">
+  </picture>
+  
+</body>
+</html>
