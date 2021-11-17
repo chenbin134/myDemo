@@ -11,6 +11,11 @@
              --fontColor : #dd5a43;
              --bgColor : #FCF8E3;
         }
+        /* dark mode */
+        :root.dark {
+            --bgColor:#23272f;
+            --fontColor : #149eca;
+        }
         body {
             background: #dcdccd;
             }
@@ -37,5 +42,12 @@
 </head>
 <body>
    <h1>提示： A2研究已结束，系统停止服务</h1> 
+   <button>dark-mode</button>
 </body>
 </html>
+<script>
+    const button = document.querySelector('button');
+    button.onclick = () => {
+        document.querySelector('html').classList.toggle('dark')
+    }
+</script>
