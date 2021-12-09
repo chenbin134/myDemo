@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .editor {
+      width: 500px;
+      min-height: 50px;
+      padding: 20px;
+      line-height: 30px;
+      border-radius: 6px;
+      border: 1px solid blue;
+      outline: none;
+    }
+    .dialog {
+      position: fixed;
+      width: 200px;
+      height: 200px;
+      display: none;
+      border: 1px solid blue;
+      border-radius: 6px;
+      background: #fff;
+      overflow: auto;
+    }
+    .userItem {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 50px;
+      background: #fff;
+    }
+    .userItem.active {
+      background: rgb(241, 240, 240);
+      color: blue;
+    }
+    .at-button {
+      border: 1px solid orange;
+      border-radius: 6px;
+      padding: 0 10px;
+      margin: 0 4px;
+      background: palegoldenrod;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <p>Range对象的操作方法：这是一段文字<span>span标签</span><bold>bold</bold>hhhhhh</p>
+
+    <div class="editor" contenteditable></div>
+    <div class="dialog">
+      <div class="userItem" data-id="001" data-name="user1">user1</div>
+      <div class="userItem" data-id="002" data-name="user2">user2</div>
+      <div class="userItem" data-id="003" data-name="user3">user3</div>
+    </div>
+  </div>
+</body>
+</html>
+<script>
+
+  const range = new Range();
+
+  const p = document.querySelector('p')
+  const span = document.querySelector('span')
+  const bold = document.querySelector('bold')
+
+  // range.setStart(p,0);
+  // range.setEnd(p,3);
+
+  range.setStart(p.firstChild,1);// param1:元素节点，param2:节点的index，如果睡节点是文本节点，则是文本的index
+  range.setEnd(bold.firstChild,2);
+
+  console.log(range)
+  console.log(range.toString())
+  document.getSelection().addRange(range);
+
+  //-------------------
+
+  let showDialog = false;// dialog是否显示
+  let activeIndex = -1;
+  const editor = document.querySelector('.editor');
+  const dialog = document.querySelector('.dialog');
+  editor.innerText = '第一行文字\n换行换行\n哈哈哈哈\nxixixi';
+
+
+  // 获取当前光标所在偏移
+  const getCursorIndex = () => {
+    const selection = window.getSelection();
+    return selection?.focusOffset;
+  }
+
+  // 获取当前@符号所在的位置（dialog应该出现的位置）
+  const getRangeRact = () => {
+    const selection = window.getSelection();
+    const range = selection?.getRangeAt(0);
+    const rect = range.getClientRects()[0];
+    const offset = 30
+    return {
+      x: rect.x,
+      y: rect.y + offset
+    }
+
+  }
+  // 获取当前光标处的节点
+  const getRangeNode = () => {
+    const selection = window.getSelection();
+    return selection?.focusNode;
+  }
+
+  // 是否有@符号
+  const showAt = () => {
+    const node = getRangeNode();
+    if(!node || node.nodeType != 3) return false;
+    const content = node.textContent || '';
+    const regx = /@([^@\s]*)$/;
+    const match = regx.exec(content.slice(0,getCursorIndex()));
+    return match && match.length == 2;
+  }
+
+  // @符号后面的内容
+  const getAtUser = () => {
+    const content = getRangeNode()?.textContent || '';
+    const regx = /@([^@\s]*)$/;
+    const match = regx.exec(content.slice(0,getCursorIndex()));// 可能会将@符号插入已有文本的前面，所以用slice，否是会将已有的内容当成是 @的内容
+    if(match && match.length == 2) {
+      return match[1];
+    } else {
+      return false;
+    }
+  }
+  // 创建at的按钮
+  const createButton = (user) => {
+    const btn = document.createElement("span");
+    btn.style.display = "inline-block";
+    btn.dataset.user = JSON.stringify(user);
+    btn.className = "at-button";
+    btn.contentEditable = "false";
+    btn.textContent = `@${user.name}`;
+    const wrapper = document.createElement("span");
+    wrapper.style.display = "inline-block";
+    wrapper.contentEditable = "false";
+    const spaceElem = document.createElement("span");
+    spaceElem.style.whiteSpace = "pre";
+    spaceElem.textContent = "\u200b";
+    spaceElem.contentEditable = "false";
+    const clonedSpaceElem = spaceElem.cloneNode(true);
+    wrapper.appendChild(spaceElem);
+    wrapper.appendChild(btn);
+    wrapper.appendChild(clonedSpaceElem);
+    return wrapper;
+
+  }
+  // 替换at用户
+  const replaceAtUser = (user) => {
+    console.log(user)
+    const node = getRangeNode();
+    if(node) {
+      const content = node.textContent || '';
+      const endIndex = getCursorIndex();
+      const preString = content.slice(0,endIndex).replace(/@([^@\s]*)$/,'');
+      const restString = content.slice(endIndex);
+      const button = createButton(user);
+      const parentNode = node.parentNode;
+      const nextNode = node.nextSibling;
+      const prevTextNode = new Text(preString);
+      const nextTextNode = new Text("\u200b" + restString);
+      parentNode.removeChild(node)
+      if(nextNode) {
+        parentNode.insertBefore(prevTextNode,nextNode);
+        parentNode.insertBefore(button,nextNode);
+        parentNode.insertBefore(nextTextNode,nextNode);
+      } else {
+        parentNode.appendChild(prevTextNode)
+        parentNode.appendChild(button)
+        parentNode.appendChild(nextTextNode)
+      }
+
+      // 设置光标位置
+      const range = new Range();
+      range.setStart(nextTextNode,0);
+      range.setEnd(nextTextNode,0);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+  }
+
+  const setPosition = ({x,y}) => {
+    showDialog  =  true;
+    dialog.style.display = 'block'
+    dialog.style.left = x + 'px';
+    dialog.style.top = y + 'px';
+  }
+
+
+  const setIndex = (index,lastIndex) => {
+    console.log(index,lastIndex)
+    const options = document.querySelectorAll('.userItem');
+    options[lastIndex]?.classList.remove('active');
+    options[index]?.classList.add('active');
+    activeIndex = index;
+  }
+
+  document.onkeydown = (e)  =>  {
+    if(showDialog) {
+      const length = document.querySelectorAll('.userItem').length;
+      const lastIndex = activeIndex;
+      if(e.code === "ArrowUp" ) {
+        let index = lastIndex <= 0 ? length - 1 : lastIndex - 1;
+        setIndex(index,lastIndex);
+      } else if(e.code === "ArrowDown"){
+        let index = lastIndex == length -1 ? 0 : lastIndex + 1;
+        setIndex(index,lastIndex);
+      } else if(e.code === "Enter"){
+        const selected = document.querySelectorAll('.userItem')[activeIndex];
+        const user = selected.dataset;
+        replaceAtUser(user);
+      }
+      e.preventDefault();
+    }
+  }
+
+  editor.onkeyup = () => {
+    if(showAt()){
+      const user = getAtUser();
+      const position = getRangeRact();
+      setPosition(position);
+    } else {
+      dialog.style.display = 'none';
+      showDialog = false;
+    }
+  }
+
+
+</script>
