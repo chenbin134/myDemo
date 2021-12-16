@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .container {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      background: #fff;
+      outline: 4px solid #000;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+    .left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 200px;
+      background: #000;
+      will-change: transform;
+      transform-origin: 100% 50%;
+      animation-name: left;
+      animation-duration: 3s;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+    }
+    .rightContainer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100px;
+      height: 200px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .right {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 100px;
+      height: 200px;
+      background: #000;
+      will-change: transform;
+      transform-origin: 0 50%;
+      animation-name: right;
+      animation-duration: 3s;
+      animation-delay: 3s;
+      animation-timing-function: linear;
+      animation-fill-mode: forwards;
+
+    }
+
+    @keyframes left {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(-180deg);
+        visibility: hidden;
+      }
+    }
+    @keyframes right {
+      0% {
+        transform: rotate(0);
+      }
+      100% {
+        transform: rotate(-180deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left"></div>
+    <div class="rightContainer">
+      <div class="right"></div>
+    </div>
+  </div>
+</body>
+</html>
