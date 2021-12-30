@@ -1,3 +1,10 @@
+/**
+ * 常用的命令行lib：
+ * 命令行参数解析：minimist，commander
+ * 使命令行输出带有色彩的工具：kolorist，chalk
+ * 命令行对话框：enquirer
+ */
+
 const path = require('path');
 const fs = require('fs');
 const { prompt } = require('enquirer');
