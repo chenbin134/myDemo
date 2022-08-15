@@ -34,7 +34,7 @@
             left: 50%;
             transform: translate(-50%);
             margin-top: 50px;
-
+            transition: all 0.3s linear;
         }
     
     
@@ -48,6 +48,6 @@
 <script>
     const button = document.querySelector('button');
     button.onclick = () => {
-        document.querySelector('html').classList.toggle('dark')
+        document.querySelector('html').classList.toggle('dark');
     }
 </script>
