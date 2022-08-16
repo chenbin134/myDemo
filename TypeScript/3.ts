@@ -69,3 +69,66 @@ const studentObj:student<boolean,number,hobbyType> = {
 
   
 }
+
+// 用 keyof 获取O上的所有 public 属性名构成联合类型
+
+class O {
+  public name: string;
+  public age : number;
+  constructor(){
+    this.name = 'name';
+    this.age = 12;
+  }
+}
+
+type a = keyof O; // name | age
+
+let sss: a = 'name';
+
+type v = O[a];
+
+let value: v = 'true'
+
+
+// pick 方法根据传入的对象，以及要取的key来返回对应的value
+// keyArray 只能是user2上拥有的key，因此用keyof 来做约束
+
+const user2 = {
+  name: 'chenbin',
+  age: 18,
+  gender: 'male',
+  isStudent: true
+}
+
+
+// const pick = <T,K extends keyof T>(obj: T,keyArray: K[]): T[K][] => {
+//   return keyArray.map(key => obj[key])
+// }
+
+function pick<T,K extends keyof T>(obj: T,keyArray: K[]): T[K][] {
+  return keyArray.map(key => obj[key]);
+}
+
+const values = pick(user2,['name','gender','isStudent']);
+
+
+// in 映射类型
+
+interface U {
+  name: string,
+  age: number,
+}
+
+// 将传入的类型变成可选
+type partial<T> = {
+  [K in keyof T]?: T[K]
+}
+
+const user3: partial<U> = {
+  name: 'name',
+}
+
+const user4: U = {
+  name: 'name',
+  age: 12,
+}
