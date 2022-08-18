@@ -81,7 +81,13 @@ class O {
   }
 }
 
+type O2 = {
+  name: string,
+  age: number
+}
+
 type a = keyof O; // name | age
+type b = keyof O2;
 
 let sss: a = 'name';
 
@@ -132,3 +138,42 @@ const user4: U = {
   name: 'name',
   age: 12,
 }
+
+
+// typof 获取类型
+
+const FnExpr = () => 0;
+
+function FnExpr2(){
+  return 'string'
+}
+
+type fnType = typeof FnExpr;
+type fnType2 = typeof FnExpr2;
+
+// 类型索引
+
+type T = {
+  name: string,
+  age: number,
+  sleep: boolean
+}
+
+type nameType = T['name'];
+type ageType = T['age' | 'sleep'];
+type keyType = T[keyof T];
+
+
+const MyArray = [
+  { name: "Alice", age: 15, },
+  { name: "Bob", age: 23 },
+  { name: "Eve", age: 38 },
+];
+
+
+type arrayTypes = typeof MyArray[number]; // number可以便利数组项
+type arrayItemType = typeof MyArray[number]['name'];
+type arrayIndexType = typeof MyArray[1]['age']
+
+
+
