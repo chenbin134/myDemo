@@ -24,4 +24,6 @@ type cases = [
 
 
 // ============= Your Code Here =============
-type Diff<O, O1> = any
+type Diff<O extends Record<string,any>, O1 extends Record<string,any>> = {
+  
+}
