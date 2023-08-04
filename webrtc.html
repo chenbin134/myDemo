@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <audio controls src=""></audio>
+<video controls src="" style="width: 100%;"></video>
+<button id="start">开始音频</button>
+<button id="stop">结束音频</button>
+<button id="play">播放音频</button>
+<button id="startVideo">开始视频</button>
+<button id="stopVideo">结束视频</button>
+<button id="playVideo">播放视频</button>
+  
+</body>
+</html>
+<script>
+  // 获取按钮
+let audioStart = document.querySelector('#start');
+let audioStop = document.querySelector('#stop');
+let audioPlay = document.querySelector('#play');
+let startVideo = document.querySelector('#startVideo');
+let stopVideo = document.querySelector('#stopVideo');
+let playVideo = document.querySelector('#playVideo');
+
+// 音频操作
+audioStart.onclick = function () {  
+    start('audio');
+}
+
+audioStop.onclick = function () {  
+    stop('audio');
+}
+
+audioPlay.onclick = function () {  
+    document.querySelector('audio').play();
+}
+
+// 视频操作
+startVideo.onclick = function () {  
+    start('video');
+}
+
+stopVideo.onclick = function () {  
+    stop('video');
+}
+
+playVideo.onclick = function () {  
+    document.querySelector('video').play();
+}
+
+// 开始录制
+function start (type) {
+    let option = type == 'audio' ? {
+        audio: true
+    } : {
+        video: true,
+    }
+    createMedia(type, option);
+}
+
+// 停止录制
+function stop (type) {
+    mediaRecorder.stop();
+}
+
+function stopSet (type) {  
+    if (type == 'audio') {
+        stream.getAudioTracks()[0].stop();
+        stream = null;
+    } else {
+        stream.getVideoTracks()[0].stop();
+    }
+    stream = null;
+    mediaRecorder = null;
+    chunks = [];
+    meida = null;
+}
+
+// 全局参数
+let stream = null,mediaRecorder = null,chunks = [], media = null;
+async function createMedia (type, option) {  
+  try {
+      // 获取媒体流
+      stream = await navigator.mediaDevices.getUserMedia(option);
+      media = document.querySelector(type);
+      if (type === 'video') {
+          media.srcObject = stream;
+      }
+      console.log(type, stream);
+
+      // 录制流
+      let options = {
+          audioBitsPerSecond : 128000,
+          videoBitsPerSecond : 2500000,
+      }
+      mediaRecorder = new MediaRecorder(stream, options);
+      console.log(type, mediaRecorder);
+
+      mediaRecorder.ondataavailable = function (e) {  
+          chunks.push(e.data);
+      }
+
+      mediaRecorder.start();
+
+      // 停止录制
+      mediaRecorder.onstop = function () {
+          let blob = new Blob(chunks, {'type': mediaRecorder.mimeType});
+          let url = window.URL.createObjectURL(blob);
+          if (type === 'video') {
+              media.srcObject = null;
+          }
+          media.src = url;
+          stopSet(type);
+      }
+
+  } catch (error) {
+      console.log('getUserMedia： ', error);
+  }
+}
+
+
+
+
+
+</script>
