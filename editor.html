@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="./lodash.v4.17.21.min.js"></script>
+  <style>
+    .container {
+      width: 600px;
+      margin: 100px auto;
+    }
+    
+    .container .editor {
+      /* 用lineheight代替.tag的diaplay inlineblock,否则光标会消失 */
+      /* line-height: 2.3; */
+      width: 500px;
+      padding: 10px;
+      min-height: 100px;
+      border: 1px solid rgba(180, 190, 202);
+      border-radius: 8px;
+    }
+    .container .editor .tag {
+      /* display: inline-block; */
+      padding: 4px 8px;
+      background: #EBF4FF;
+      color: #3491FA;
+      border-radius: 4px;
+      margin: 4px;
+      white-space: nowrap;
+      cursor: pointer;
+      user-select: none;
+    }
+    .container .editor .tag.operator {
+      background: #FFFFFF;
+    }
+
+    .container .category {
+      display: flex;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .container .category .tags {
+      display: flex;
+      align-items: center;
+      margin-left: 8px;
+    }
+    .container .category .tags .tag {
+      padding: 4px 8px;
+      background: #EBF4FF;
+      color: #3491FA;
+      border-radius: 4px;
+      margin-right: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .container .dialog {
+      display: none;
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border: 1px solid #CCCCCC;
+      border-radius: 4px;
+      background-color: #FFFFFF;
+    }
+    .container .dialog .symbols {
+      padding: 4px;
+      margin: 8px 4px;
+    }
+    .container .dialog .symbols .symbol {
+      padding: 2px;
+      background: #EBF4FF;
+      color: #3491FA;
+      border-radius: 4px;
+      margin-right: 2px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+      white-space: break-spaces;
+      box-sizing: border-box;
+    }
+    .container .dialog .symbols .symbol.active {
+      border: 1px solid #3491FA;
+    }
+    .container .dialog .values {
+      padding: 4px 8px;
+    }
+    .container .dialog .values .value {
+      padding: 4px 2px;
+      cursor: pointer;
+    }
+    .container .dialog .values .value:hover {
+      background-color: #f7f7f7;
+    }
+    .container .dialog .values .value.active {
+      background-color: #eeeeee;
+    }
+    .container .shortcut {
+      display: flex;
+      margin-bottom: 12px;
+    }
+    .container .shortcut .tag {
+      padding: 4px 8px;
+      background: #EBF4FF;
+      color: #3491FA;
+      border-radius: 4px;
+      margin-right: 4px;
+      cursor: pointer;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="category">
+      <span class="label">Category:</span>
+      <div class="tags">
+        <span class="tag" data-value="Tag1">Tag1</span>
+        <span class="tag" data-value="Tag2">Tag2</span>
+      </div>
+    </div>
+    <div class="dialog">
+      <div class="symbols">
+        <span class="symbol active" data-value="="> = </span>
+        <span class="symbol" data-value=">"> > </span>
+        <span class="symbol" data-value="<"> < </span>
+      </div>
+      <div class="values">
+        <div class="value active" data-value="value1">value1</div>
+        <div class="value" data-value="value2">value2</div>
+        <div class="value" data-value="value3">value3</div>
+      </div>
+      <button class="submit">add</button>
+    </div>
+    <div class="shortcut">
+      <span class="tag" data-value="AND">AND</span>
+      <span class="tag" data-value="OR">OR</span>
+      <span class="tag" data-value="(">(</span>
+      <span class="tag" data-value=")">)</span>
+    </div>
+    <div class="editor" contenteditable></div>
+
+    <button class="validateBtn" onClick="validate()">validate</button>
+  </div>
+</body>
+</html>
+<script>
+
+  // https://juejin.cn/post/7143397823432622093#heading-11
+
+  const flow = [];
+
+  const factory = {
+    'TAG':{
+      vnode(tagName,symbol,values) {
+        return {
+          type: 'TAG',
+          tagName: tagName,
+          symbol: symbol,
+          values: values
+        }
+      },
+      render(tagName,symbol,values) {
+        // const { tagName,symbol,values } = vnode;
+        const className = 'value tag';
+        const textContent = `${tagName} ${symbol} ${values.join(',')}`
+        return createTagEle(className,textContent);
+      }
+    },
+    "OPERATOR": {
+      vnode(value) {
+        return {
+          type: 'OPERATOR',
+          value: value
+        }
+      },
+      render(value) {
+        // const { value } = vnode;
+        const className = "operator tag";
+        const textContent = `${value}`;
+        return createTagEle(className,textContent);
+      }
+    }
+  }
+
+  const shortcutWord = ['(',')','OR','AND'];
+  const activeClass = 'active';
+  const tagContainerEle = document.querySelector('.tags');
+  const dialogEle = document.querySelector('.dialog');
+  const symbolContainerEle = document.querySelector('.symbols');
+  const valueContainerEle = document.querySelector('.values');
+  const submitBtnEle = document.querySelector('.submit');
+  const shortcutsEle = document.querySelector('.shortcut');
+  const editorEle = document.querySelector('.editor');
+  let lastEditRange;
+
+  let tagName;
+  let symbol = '=';
+  let tagValues = ['value1'];
+
+  tagContainerEle.addEventListener('click',function(e) {
+    const targetEle = e.target;
+    const { value } = targetEle.dataset;
+    tagName = value;
+    toggleDialog();
+  });
+
+  symbolContainerEle.addEventListener('click',function(e) {
+    const targetEle = e.target;
+    const { value } = targetEle.dataset;
+    const siblings = symbolContainerEle.children;
+    const isActive = targetEle.classList.contains(activeClass);
+    if(!isActive) {
+      Array.from(siblings).forEach(item => {
+        item.classList.remove(activeClass);
+      })
+      targetEle.classList.add(activeClass);
+      symbol = value;
+    }  
+  });
+
+  valueContainerEle.addEventListener('click',function(e) {
+    const targetEle = e.target;
+    const { value } = targetEle.dataset;
+    targetEle.classList.toggle(activeClass);
+
+    const siblings = valueContainerEle.children;
+    tagValues = Array.from(siblings).filter(item => item.classList.contains('active')).map(item => item.dataset.value)
+  });
+
+  submitBtnEle.addEventListener('click',function() {
+    const tagEle = factory.TAG.render(tagName,symbol,tagValues);
+    handleInertRange(tagEle);
+    toggleDialog();
+  });
+
+  shortcutsEle.addEventListener('click',function(e) {
+    const targetEle = e.target;
+    const { value } = targetEle.dataset;
+    const operatorTagEle = factory.OPERATOR.render(value);
+    handleInertRange(operatorTagEle);
+  });
+
+
+  editorEle.addEventListener('keydown',function(e) {
+    if(e.keyCode === 8) {
+      e.preventDefault();
+      const cursorIndex = handleCursor().getCursorIndex();
+      const previousSiblingIndex = cursorIndex - 1;
+      const previousSibling = editorEle.childNodes[previousSiblingIndex];
+      if(previousSibling) {
+        editorEle.removeChild(previousSibling);
+      }
+    }
+    if(e.keyCode === 13) {
+      // 屏蔽回车键换行
+      e.preventDefault();
+      return;
+    }
+  });
+
+  editorEle.addEventListener('input',_.debounce(handleEditorInput,300));
+  editorEle.addEventListener('blur',function(){
+    // 记录光标的位置
+    handleCursor().cacheLastRange();
+  });
+
+  /**
+   * 处理输入
+  */
+  function handleEditorInput(e) {
+    const inputTextNode = handleCursor().getFocusNode();
+    if(inputTextNode.nodeName != '#text') return;
+    const inputText = inputTextNode.textContent.toUpperCase();
+    const parentNode = inputTextNode.parentNode;
+    if(shortcutWord.includes(inputText)) {
+      const operatorTagEle = factory.OPERATOR.render(inputText);
+      parentNode.insertBefore(operatorTagEle,inputTextNode);
+      parentNode.removeChild(inputTextNode);
+    } else {
+      parentNode.removeChild(inputTextNode);
+    }
+  }
+
+  /**
+   * 在光标处插入标签
+  */
+  function handleInertRange(element) {
+    // 编辑框设置焦点
+    editorEle.focus()
+    //恢复光标
+    handleCursor().setLastRange();
+    if(lastEditRange) {
+      lastEditRange.insertNode(element);
+      lastEditRange.setStartAfter(element);
+    } else {
+      editorEle.appendChild(element);
+    }
+  }
+
+  function renderer(vnodeList) {
+    editorEle.innerHTML = '';
+    vnodeList.forEach(vnode => {
+      const { type } = vnode;
+      const render = factory[type]?.render;
+      const element = render && render(vnode);
+      editorEle.appendChild(element);
+    });
+  }
+
+  function toggleDialog() {
+    const display = window.getComputedStyle(dialogEle).getPropertyValue('display');
+    if(display != 'none') {
+      dialogEle.style.display = 'none';
+    } else {
+      dialogEle.style.display = 'block';
+    }
+  }
+
+  function createTagEle(className,textContent) {
+    const tagEle = document.createElement('span');
+    tagEle.className = className;
+    tagEle.contentEditable = "false";
+    tagEle.textContent = textContent;
+    return tagEle;
+  }
+
+  /**
+   * 处理光标相关
+  */
+  function handleCursor() {
+    const selection = window.getSelection();
+    // 获取当前光标所处的节点
+    const getFocusNode = () => {
+      return selection.focusNode;
+    }
+    // 获取当前光标的偏移位置
+    const getCursorIndex = () => {
+      return selection.focusOffset;
+    }
+    // 记录光标最后一次的位置
+    const cacheLastRange = () => {
+      lastEditRange = selection.getRangeAt(0)
+    }
+    // 还原光标位置
+    const setLastRange = () => {
+      if (lastEditRange) {
+        selection.removeAllRanges()
+        selection.addRange(lastEditRange)
+      }
+    }
+    return {
+      getFocusNode,
+      getCursorIndex,
+      cacheLastRange,
+      setLastRange
+    }
+  }
+
+  function validate() {
+    const nodeList = editorEle.children;
+    if(nodeList.length == 0) {
+      alert('请输入');
+    }
+    const list = praseTagNodes(nodeList);
+    console.log(list);
+
+    // 是否以and/or开头或结尾
+
+    // 已有的括号是否成对匹配
+
+    // 是否有两组括号重叠，如：((text))
+    
+    
+
+  }
+
+  /**
+   * 解析输入的公式
+  */
+  function praseTagNodes(nodeList) {
+    const list = [];
+    if(nodeList.length == 0) return;
+    Array.from(nodeList).forEach(node => {
+      const classList = node.classList;
+      const innerText = node.innerText;
+      if(classList.contains('tag') && classList.contains('value')) {
+        const reg = /^([\w]+)\s?([=><])\s?([\w,]+)/;
+        const [text,tagName,symbol,valueString] = innerText.match(reg);
+        const values = valueString.split(',');
+        const vnode = factory.TAG.vnode(tagName,symbol,values);
+        list.push({
+          el: node,
+          innerText: innerText,
+          vnode
+        });
+        return;
+      }
+      if(classList.contains('tag') && classList.contains('operator')) {
+        const vnode = factory.OPERATOR.vnode(innerText);
+        list.push({
+          el: node,
+          innerText: innerText,
+          vnode
+        });
+        return;
+      }
+    })
+    return list;
+  }
+
+
+
+  
+</script>
