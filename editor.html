@@ -14,7 +14,7 @@
     
     .container .editor {
       /* 用lineheight代替.tag的diaplay inlineblock,否则光标会消失 */
-      /* line-height: 2.3; */
+      line-height: 2.3;
       width: 500px;
       padding: 10px;
       min-height: 100px;
@@ -141,7 +141,8 @@
     </div>
     <div class="editor" contenteditable></div>
 
-    <button class="validateBtn" onClick="validate()">validate</button>
+    <button class="validateBtn" onClick="handleValidate()">validate</button>
+    <span class="message"></span>
   </div>
 </body>
 </html>
@@ -181,7 +182,7 @@
         const textContent = `${value}`;
         return createTagEle(className,textContent);
       }
-    }
+    },
   }
 
   const shortcutWord = ['(',')','OR','AND'];
@@ -358,22 +359,100 @@
     }
   }
 
+  function handleValidate(){
+    const hasError = validate();
+
+    const msgBox = document.querySelector('.message');
+
+    if(hasError) {
+      msgBox.innerText = '有语法错误，请检查你的输入';
+      msgBox.style.color = 'red';
+      msgBox.style.fontWeight = 'bold';
+    } else {
+      msgBox.innerText = '输入正确！';
+      msgBox.style.color = 'green';
+      msgBox.style.fontWeight = 'bold';
+    }
+  }
+
   function validate() {
+    // let errorNode = [];
+
     const nodeList = editorEle.children;
     if(nodeList.length == 0) {
-      alert('请输入');
+      alert('请输入...');
     }
-    const list = praseTagNodes(nodeList);
-    console.log(list);
+    const vnodeList = praseTagNodes(nodeList);
+
+    console.log(vnodeList);
+
+    const isValueTag = (vnode) => {
+      return vnode.type == "TAG";
+    }
+    const isKeyword = (vnode) => {
+      return vnode.type == "OPERATOR" && (vnode.value == 'AND' || vnode.value == 'OR');
+    }
 
     // 是否以and/or开头或结尾
+    const checkStartAndEnd = (vnodeList) => {
+      const {vnode: firstNode} = vnodeList[0];
+      const {vnode: lastNode} = vnodeList[vnodeList.length - 1];
+      return isKeyword(firstNode) || isKeyword(lastNode);
+    }
 
-    // 已有的括号是否成对匹配
+    // 是否连续两个and/or 关系符
+    // 是否连续两个value标签
+    const checkIsRepeat = (vnodeList) => {
+      return vnodeList.some((item,index) => {
+        if(index == vnodeList.length - 1) return false;
+        const nextItem = vnodeList[index + 1];
+        return (isValueTag(item.vnode) && isValueTag(nextItem.vnode)) || (isKeyword(item.vnode) && isKeyword(nextItem.vnode));
+      });
+    }
+
+    // 已有的括号是否成对匹配错误
+    const checkHasParenthesesError = (vnodeList) => {
+      const stack = [];
+      let result = false;
+      vnodeList.some(item => {
+        const char = item.innerText;
+        if (char === '(') {
+          stack.push(char);
+        } else if (char === ')') {
+          if (stack.length === 0 || stack.pop() !== '(') {
+            result = true;
+            return true;
+          }
+        }
+      })
+      if(stack.length != 0) {
+        result = true;
+      }
+      return result;
+    }
+
+    // 左括号左侧不为tag/），右侧不为and/or，右括号左侧不为and/or，右侧不为tag/（
+    const checkParenthesesLeftAndRightError = (vnodeList) => {
+      return vnodeList.some((item,index) => {
+        const prevNode = index == 0 ? null : vnodeList[index - 1];
+        const nextNode = index == vnodeList.length - 1 ? null : vnodeList[index + 1];
+        const currentNodeText = item.innerText;
+        if(currentNodeText === '(') {
+          if(prevNode && isValueTag(prevNode.vnode)) return true;
+          if(prevNode && prevNode.innerText === ')') return true;
+          if(nextNode && isKeyword(nextNode.vnode)) return true;
+        } else if(currentNodeText === ')') {
+          if(prevNode && isKeyword(prevNode.vnode)) return true;
+          if(nextNode && isValueTag(nextNode.vnode)) return true;
+          if(nextNode && nextNode.innerText === '(') return true;
+        }
+      });
+    }
 
     // 是否有两组括号重叠，如：((text))
-    
-    
+    // ....
 
+    return checkStartAndEnd(vnodeList) || checkIsRepeat(vnodeList) || checkHasParenthesesError(vnodeList) || checkParenthesesLeftAndRightError(vnodeList);
   }
 
   /**
